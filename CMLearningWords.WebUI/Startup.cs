@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CMLearningWords.AccessToData.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,6 +24,7 @@ namespace CMLearningWords.WebUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(ApplicationContextFactory.Path));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
