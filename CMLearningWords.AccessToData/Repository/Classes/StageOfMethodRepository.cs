@@ -13,5 +13,10 @@ namespace CMLearningWords.AccessToData.Repository.Classes
     {
         public StageOfMethodRepository(ApplicationContext context) : base(context) { }
 
+        public StageOfMethod GetOne(long id)
+        {
+            return Context.StageOfMethods.Find(id) ?? null;
+        }
+
     }
 }

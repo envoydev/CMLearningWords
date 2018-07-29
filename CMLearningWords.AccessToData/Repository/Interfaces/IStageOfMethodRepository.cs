@@ -10,5 +10,6 @@ namespace CMLearningWords.AccessToData.Repository.Interfaces
 {
     public interface IStageOfMethodRepository : IRepository<StageOfMethod>
     {
+        StageOfMethod GetOne(long id);
     }
 }

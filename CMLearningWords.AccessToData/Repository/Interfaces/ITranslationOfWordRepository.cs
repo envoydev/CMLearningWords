@@ -9,5 +9,6 @@ namespace CMLearningWords.AccessToData.Repository.Interfaces
 {
     public interface ITranslationOfWordRepository : IRepository<TranslationOfWord>
     {
+        TranslationOfWord GetOne(long id);
     }
 }
