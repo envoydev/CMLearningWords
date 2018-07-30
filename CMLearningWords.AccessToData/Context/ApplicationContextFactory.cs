@@ -16,7 +16,7 @@ namespace CMLearningWords.AccessToData.Context
         public ApplicationContext CreateDbContext(string[] args)
         {
             var builderOption = new DbContextOptionsBuilder<ApplicationContext>();
-            builderOption.UseSqlServer(Path, option => option.MigrationsAssembly("CMLearningWords.AccessToData"));
+            builderOption.UseSqlServer(Path, option => option.MigrationsAssembly("CMLearningWords.WebUI"));
             return new ApplicationContext(builderOption.Options);
         }
     }
