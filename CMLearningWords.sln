@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMLearningWords.DataModels", "CMLearningWords.DataModels\CMLearningWords.DataModels.csproj", "{1B3D8765-E525-4A61-8344-9FA718EE9550}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMLearningWords.WebUI", "CMLearningWords.WebUI\CMLearningWords.WebUI.csproj", "{1AAE035B-5372-402C-A495-9E864F5ECBE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMLearningWords.AccessToData", "CMLearningWords.AccessToData\CMLearningWords.AccessToData.csproj", "{74A77C51-49A4-411E-A7E3-0196E7FD0953}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMLearningWords.AccessToData", "CMLearningWords.AccessToData\CMLearningWords.AccessToData.csproj", "{DABC9A36-488E-4C70-9B1A-0089C389747C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMLearningWords.WebUI", "CMLearningWords.WebUI\CMLearningWords.WebUI.csproj", "{15425B76-2B81-42B5-9606-77675A27D3B9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMLearningWords.DataModels", "CMLearningWords.DataModels\CMLearningWords.DataModels.csproj", "{03220A43-7325-4A46-8DDA-A969DFD40382}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,23 +15,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1B3D8765-E525-4A61-8344-9FA718EE9550}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1B3D8765-E525-4A61-8344-9FA718EE9550}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1B3D8765-E525-4A61-8344-9FA718EE9550}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1B3D8765-E525-4A61-8344-9FA718EE9550}.Release|Any CPU.Build.0 = Release|Any CPU
-		{74A77C51-49A4-411E-A7E3-0196E7FD0953}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74A77C51-49A4-411E-A7E3-0196E7FD0953}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74A77C51-49A4-411E-A7E3-0196E7FD0953}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74A77C51-49A4-411E-A7E3-0196E7FD0953}.Release|Any CPU.Build.0 = Release|Any CPU
-		{15425B76-2B81-42B5-9606-77675A27D3B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{15425B76-2B81-42B5-9606-77675A27D3B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{15425B76-2B81-42B5-9606-77675A27D3B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{15425B76-2B81-42B5-9606-77675A27D3B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AAE035B-5372-402C-A495-9E864F5ECBE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AAE035B-5372-402C-A495-9E864F5ECBE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AAE035B-5372-402C-A495-9E864F5ECBE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AAE035B-5372-402C-A495-9E864F5ECBE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DABC9A36-488E-4C70-9B1A-0089C389747C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DABC9A36-488E-4C70-9B1A-0089C389747C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DABC9A36-488E-4C70-9B1A-0089C389747C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DABC9A36-488E-4C70-9B1A-0089C389747C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03220A43-7325-4A46-8DDA-A969DFD40382}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03220A43-7325-4A46-8DDA-A969DFD40382}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03220A43-7325-4A46-8DDA-A969DFD40382}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03220A43-7325-4A46-8DDA-A969DFD40382}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {B59EC325-1959-4247-87DE-27D5A3E6DDA4}
+		SolutionGuid = {EF3D2311-2ACC-480E-AB44-A658446A545A}
 	EndGlobalSection
 EndGlobal
