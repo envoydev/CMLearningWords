@@ -28,7 +28,7 @@ namespace CMLearningWords.WebUI
         {
             services.AddMvc();
             //Connection to database
-            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(ApplicationContextFactory.Path));
+            //services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(ApplicationContextFactory.Path));
 
             //Repository Scopes
             services.AddScoped<IStageOfMethodRepository, StageOfMethodRepository>();
