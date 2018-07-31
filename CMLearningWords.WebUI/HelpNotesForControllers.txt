@@ -1,0 +1,3 @@
+﻿ViewBag.SuccessText - show text to user for action he did
+ViewBag.MethodRedirect - show controller for _Success and _NotFoud
+ViewBag.ControllerRedirect - show method for _Success and _NotFoud

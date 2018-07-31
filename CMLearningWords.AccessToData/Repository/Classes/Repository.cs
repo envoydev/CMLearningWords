@@ -12,6 +12,7 @@ namespace CMLearningWords.AccessToData.Repository.Classes
 {
     public class Repository<T> : IRepository<T> where T : class
     {
+
         //Contection
         protected readonly ApplicationContext Context;
         //created entity by generic
@@ -41,40 +42,42 @@ namespace CMLearningWords.AccessToData.Repository.Classes
         public virtual IQueryable<T> GetAllIQueryableWithInclude(Expression<Func<T, object>> include = null)
         {
             if (include != null)
-                return entity.Include(include);
-            return entity;
+                return entity.AsNoTracking().Include(include);
+            return entity.AsNoTracking();
         }
 
-        //Get one object of T by id
-        public T Get(long id)
+        //Get one element by id
+        public async virtual Task<T> GetById(long id)
         {
-            return entity.Find(id) ?? null;
+            return await entity.FindAsync(id) ?? null;
         }
 
         //Add new object of T to database
-        public virtual void Add(T item)
+        public async virtual Task Add(T item)
         {
             if (item != null)
-                entity.Add(item);
+            {
+                await entity.AddAsync(item);
+                await Context.SaveChangesAsync();
+            }
         }
 
         //Update item of object T
-        public virtual void Update(T item)
+        public async virtual Task Update(T item)
         {
-            Context.Entry(item).State = EntityState.Modified;
+            //await Context.Entry(item).State = EntityState.Modified;
+            entity.Update(item);
+            await Context.SaveChangesAsync();
         }
 
         //Remove object T form table of T
-        public virtual void Remove(T item)
+        public async virtual Task Remove(T item)
         {
             if (item != null)
+            {
                 entity.Remove(item);
-        }
-
-        //Save all changes
-        public virtual void Save()
-        {
-            Context.SaveChanges();
+                await Context.SaveChangesAsync();
+            }
         }
 
         //Close connections

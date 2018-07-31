@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using CMLearningWords.WebUI.Models;
 using CMLearningWords.AccessToData.Repository.Interfaces;
 using AutoMapper;
+using CMLearningWords.DataModels.Models;
 
 namespace CMLearningWords.WebUI.Controllers
 {
@@ -24,7 +25,8 @@ namespace CMLearningWords.WebUI.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            List<WordInEnglish> words = WordsInEnglishContext.GetAllIQueryableWithInclude(a => a.TranslationOfWords).ToList();
+            return View(words);
         }
 
         public IActionResult About()

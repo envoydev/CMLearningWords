@@ -14,14 +14,12 @@ namespace CMLearningWords.AccessToData.Repository.Interfaces
         //Get All elemets of T objects (with include of not).
         IQueryable<T> GetAllIQueryableWithInclude(Expression<Func<T, object>> predicate = null);
         //Get element form database by Id
-        T Get(long id);
+        Task<T> GetById(long id);
         //Add element to database
-        void Add(T item);
+        Task Add(T item);
         //Update element by entity
-        void Update(T item);
+        Task Update(T item);
         //Remove element form database by entity
-        void Remove(T imem);
-        //Save all actions
-        void Save();
+        Task Remove(T imem);
     }
 }
