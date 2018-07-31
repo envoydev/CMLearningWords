@@ -64,7 +64,7 @@ namespace CMLearningWords.WebUI.Controllers
                     //ViewBags for "_Success" view
                     ViewBag.SuccessText = "Категория успешно добавлена";
                     ViewBag.MethodRedirect = "Index";
-                    ViewBag.ControllerRedirect = "Category";
+                    ViewBag.ControllerRedirect = "StageOfMethod";
                     //Render user on temporary view "Views/Shared/_Success"
                     return PartialView("_Success");
                 }
