@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<StageOfMethod>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    List<StageOfMethod> stages = (List<StageOfMethod>)Model.ToList();
+    List<StageOfMethod> stages = (List<StageOfMethod>)Model;
     int count = 1;
 }
 

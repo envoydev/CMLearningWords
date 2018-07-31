@@ -12,11 +12,13 @@ namespace CMLearningWords.AccessToData.Repository.Interfaces
         //Find elemets of T objects by expression (with include of not).
         IQueryable<T> FindWithInclude(Expression<Func<T, bool>> predicate, Expression<Func<T, object>> include = null);
         //Get All elemets of T objects (with include of not).
-        IQueryable<T> GetAllIQueryableWithInclude(Expression<Func<T, object>> predicate = null);
+        IQueryable<T> GetAllIQueryableWithInclude(Expression<Func<T, object>> predicate = null, Expression<Func<T, object>> thanPredicate = null);
         //Get element form database by Id
         Task<T> GetById(long id);
         //Add element to database
         Task Add(T item);
+        //Add many elements to database
+        Task AddMany(IEnumerable<T> items);
         //Update element by entity
         Task Update(T item);
         //Remove element form database by entity

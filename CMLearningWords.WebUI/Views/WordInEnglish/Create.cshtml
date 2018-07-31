@@ -1,0 +1,64 @@
+﻿@model CMLearningWords.WebUI.Models.CreateWordInEnglishViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="mt-5">@ViewBag.HeadPageText</h2>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-antiforgery="true" asp-controller="WordInEnglish" asp-action="Create" method="post" name="createNewWord">
+
+            @Html.AntiForgeryToken()
+            <input type="hidden" class="validation" asp-validation-summary="ModelOnly" />
+
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control custom-control" required />
+                <span asp-validation-for="Name" class="form-text text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="StageOfMethodId"></label>
+                <select asp-for="StageOfMethodId" asp-items="Model.StagesOfMethod" class="form-control custom-control" required></select>
+                <span asp-validation-for="StageOfMethodId" class="form-text text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Translation"></label>
+                <span asp-validation-for="Translation" class="form-text text-danger"></span>
+                <div id="containerOfTranslations">
+                    <fieldset class="translationFiled">
+                        <input asp-for="Translation" class="form-control custom-control" required />
+                    </fieldset>
+                </div>
+                @*<input type="button" name="addButton" value="Добавить еще один перевод" />*@
+            </div>
+
+            <input type="submit" value="Добавить слово" class="btn btn-primary" />
+            <a asp-controller="Home" asp-action="Index" class="btn btn-info">Назад</a>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @*<script>
+        function addElements() {
+            var container = document.getElementById("containerOfTranslations");
+            var firsField = document.getElementsByClassName("translationFiled")[0];
+            var clone = firsField.cloneNode(true);
+            container.appendChild(clone);
+            var lastElement = document.getElementsByClassName("translationFiled")[document.getElementsByClassName("translationFiled").length - 1];
+            console.log(lastElement.value = "true");
+            var countElements = document.getElementsByClassName("translationFiled").length;
+            console.log(countElements);
+        }
+
+        var addButton = createNewWord.addButton;
+        addButton.addEventListener("click", addElements);
+
+        
+    </script>*@
+}
+

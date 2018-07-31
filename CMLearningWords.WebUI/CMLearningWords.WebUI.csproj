@@ -21,4 +21,8 @@
     <ProjectReference Include="..\CMLearningWords.DataModels\CMLearningWords.DataModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\TransltaionOfWord\" />
+  </ItemGroup>
+
 </Project>

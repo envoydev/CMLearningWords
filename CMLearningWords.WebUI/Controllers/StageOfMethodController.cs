@@ -30,7 +30,7 @@ namespace CMLearningWords.WebUI.Controllers
             //Use for head in page
             ViewBag.HeadPageText = "Список категорий";
             //Get all stages from database
-            return View(StageOfMethodsContext.GetAllIQueryableWithInclude());
+            return View(StageOfMethodsContext.GetAllIQueryableWithInclude().ToList());
         }
 
         [HttpGet]
@@ -79,7 +79,7 @@ namespace CMLearningWords.WebUI.Controllers
             StageOfMethod stage = StageOfMethodsContext.FindWithInclude(s => s.Name == name).FirstOrDefault();
             if (stage == null)
                 return Json(true); //If true current name doesn`t exist in database
-            return Json(false); //If false current name exist in database
+            return Json(false); //If false current name exists in database
         }
 
         //Close all connections

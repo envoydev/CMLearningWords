@@ -7,6 +7,7 @@ using CMLearningWords.AccessToData.Repository.Interfaces;
 using CMLearningWords.DataModels.Models;
 using CMLearningWords.WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CMLearningWords.WebUI.Controllers
 {
@@ -32,25 +33,57 @@ namespace CMLearningWords.WebUI.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            CreateWordInEnglishViewModel newWord = new CreateWordInEnglishViewModel();
+            newWord.StagesOfMethod = new SelectList(StageOfMethodsContext.GetAllIQueryableWithInclude().ToList(), "Id", "Name");
+            //Use for Titile in html
+            ViewData["Title"] = "Добавить слово";
+            //Use for head in page
+            ViewBag.HeadPageText = "Добавить слово и перевод";
+            //Render to View Create
+            return View(newWord);
         }
 
         [HttpPost]
-        public IActionResult Create(CreateWordInEnglishViewModel word)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CreateWordInEnglishViewModel word)
         {
-            return View();
+            //Use for Titile in html
+            ViewData["Title"] = "Добавить слово";
+            //Use for head in page
+            ViewBag.HeadPageText = "Добавить слово и перевод";
+            //Check newStage on null
+            if (word != null)
+            {
+                // Server validation
+                if (ModelState.IsValid)
+                {
+                    //Work with data
+                    WordInEnglish currentWord = Mapper.Map<CreateWordInEnglishViewModel, WordInEnglish>(word);
+                    await WordsInEnglishContext.Add(currentWord);
+                    await TranslationsOfWordContext.Add(new TranslationOfWord { Name = word.Translation, WordInEnglishId = currentWord.Id });
+                    //ViewBags for "_Success" view
+                    ViewBag.SuccessText = "Слово успешно добавленно";
+                    ViewBag.MethodRedirect = "Index";
+                    ViewBag.ControllerRedirect = "Home";
+                    //Render user on temporary view "Views/Shared/_Success"
+                    return PartialView("_Success");
+                }
+            }
+            //Update SelectList for html data and and all stages in it with current word
+            word.StagesOfMethod = new SelectList(StageOfMethodsContext.GetAllIQueryableWithInclude().ToList(), "Id", "Name", word.StageOfMethodId);
+            //If word is null or validation was false
+            return View(word);
         }
 
         //Chech Unique data for "Name"
-        [AcceptVerbs("Get", "Post")]
         public IActionResult CheckWordInEnglishName(string name)
         {
             //Get item by Name
             WordInEnglish WordInEnglish = WordsInEnglishContext.FindWithInclude(a => a.Name == name).FirstOrDefault();
             //Check
-            if (WordInEnglish != null)
-                return Json(false); //if false current "Name" exist in DB
-            return Json(true); //if true current "Name" not exist in DB
+            if (WordInEnglish == null)
+                return Json(true); //if true current word name doesen`t exists in database
+            return Json(false); //if false current word name exists in database
         }
 
         //Chech Unique data for "Name" and for name of current id

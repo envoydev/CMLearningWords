@@ -39,10 +39,12 @@ namespace CMLearningWords.AccessToData.Repository.Classes
         }
 
         //Find All objects of T (with include or not) expression(example: x => x.object)
-        public virtual IQueryable<T> GetAllIQueryableWithInclude(Expression<Func<T, object>> include = null)
+        public virtual IQueryable<T> GetAllIQueryableWithInclude(Expression<Func<T, object>> include = null, Expression<Func<T, object>> thenInclude = null)
         {
-            if (include != null)
-                return entity.AsNoTracking().Include(include);
+            if (include != null && thenInclude != null)
+                return entity.AsNoTracking().Include(include).Include(thenInclude).AsNoTracking();
+            else if (include != null && thenInclude == null)
+                return entity.AsNoTracking().Include(include).AsNoTracking();
             return entity.AsNoTracking();
         }
 
@@ -58,6 +60,16 @@ namespace CMLearningWords.AccessToData.Repository.Classes
             if (item != null)
             {
                 await entity.AddAsync(item);
+                await Context.SaveChangesAsync();
+            }
+        }
+
+        //Add new objecs of T to database
+        public async virtual Task AddMany(IEnumerable<T> items)
+        {
+            if (items != null)
+            {
+                await entity.AddRangeAsync(items);
                 await Context.SaveChangesAsync();
             }
         }
