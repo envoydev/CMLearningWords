@@ -33,8 +33,10 @@ namespace CMLearningWords.WebUI.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            CreateWordInEnglishViewModel newWord = new CreateWordInEnglishViewModel();
-            newWord.StagesOfMethod = new SelectList(StageOfMethodsContext.GetAllIQueryableWithInclude().ToList(), "Id", "Name");
+            CreateWordInEnglishViewModel newWord = new CreateWordInEnglishViewModel
+            {
+                StagesOfMethod = new SelectList(StageOfMethodsContext.GetAllIQueryableWithInclude().ToList(), "Id", "Name")
+            };
             //Use for Titile in html
             ViewData["Title"] = "Добавить слово";
             //Use for head in page
@@ -60,7 +62,8 @@ namespace CMLearningWords.WebUI.Controllers
                     //Work with data
                     WordInEnglish currentWord = Mapper.Map<CreateWordInEnglishViewModel, WordInEnglish>(word);
                     await WordsInEnglishContext.Add(currentWord);
-                    await TranslationsOfWordContext.Add(new TranslationOfWord { Name = word.Translation, WordInEnglishId = currentWord.Id });
+                    //Add many translations, user method "GetTranslationsFromStringArray" to make new object of TranslationOfWord type
+                    await TranslationsOfWordContext.AddMany(GetTranslationsFromListAndGiveIdOfWordInEnglish(word.Translations, currentWord.Id));
                     //ViewBags for "_Success" view
                     ViewBag.SuccessText = "Слово успешно добавленно";
                     ViewBag.MethodRedirect = "Index";
@@ -110,6 +113,17 @@ namespace CMLearningWords.WebUI.Controllers
             TranslationsOfWordContext.Dispose();
             StageOfMethodsContext.Dispose();
             base.Dispose(disposing);
+        }
+
+        //Method which converts word.Translations to List of TranslationOfWord(Name and WordInEnglishId must have)
+        private List<TranslationOfWord> GetTranslationsFromListAndGiveIdOfWordInEnglish(IEnumerable<CreateTranslationOfWordViewModel> arr, long idOfWordInEnglish)
+        {
+            List<TranslationOfWord> translations = Mapper.Map<IEnumerable<CreateTranslationOfWordViewModel>, List<TranslationOfWord>>(arr);
+            for(int i = 0; i < translations.Count(); i++)
+            {
+                translations[i].WordInEnglishId = idOfWordInEnglish;
+            }
+            return translations;
         }
     }
 }

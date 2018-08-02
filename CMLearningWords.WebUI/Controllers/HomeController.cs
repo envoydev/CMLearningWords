@@ -17,15 +17,18 @@ namespace CMLearningWords.WebUI.Controllers
     {
         private readonly IWordInEnglishRepository WordsInEnglishContext; // context of WordsInEnglish
         private readonly IStageOfMethodRepository StageOfMethodContext; // context of StageOfMethod
+        private readonly ITranslationOfWordRepository TranslationsOfWordContext; // context of StageOfMethod
         private readonly IMapper Mapper; // Mapper for ViewModels
 
         //Constructor with parameters
         public HomeController(IWordInEnglishRepository wordsInEnglishContext,
                               IStageOfMethodRepository stageOfMethodContext,
+                              ITranslationOfWordRepository translationsOfWordContext,
                                 IMapper mapper)
         {
             this.WordsInEnglishContext = wordsInEnglishContext;
             this.StageOfMethodContext = stageOfMethodContext;
+            this.TranslationsOfWordContext = translationsOfWordContext;
             this.Mapper = mapper;
         }
         //Index view with filters
@@ -40,8 +43,8 @@ namespace CMLearningWords.WebUI.Controllers
             //Search word by eglish word or by his translations
             if(!String.IsNullOrEmpty(nameOfWord))
             {
-                if (!Regex.IsMatch(nameOfWord, @"\P{IsCyrrilic}"))
-                    wordsInEnglish = wordsInEnglish.Where(w => w.StageOfMethod.Name.Contains(nameOfWord));
+                if (!Regex.IsMatch(nameOfWord, @"\P{IsCyrillic}"))
+                    wordsInEnglish = wordsInEnglish.Where(w => w.Name.Contains(nameOfWord));
                 else
                     wordsInEnglish = wordsInEnglish.Where(w => w.Name.Contains(nameOfWord));
             }
@@ -98,5 +101,17 @@ namespace CMLearningWords.WebUI.Controllers
             WordsInEnglishContext.Dispose();
             base.Dispose(disposing);
         }
+
+        //Test method
+        //private IQueryable<WordInEnglish> GetWordsInEnglishByTranslationName(string name)
+        //{
+        //    IQueryable<TranslationOfWord> listOfTrans = TranslationsOfWordContext.FindWithInclude(t => t.Name.Contains(name), t => t.WordInEnglish);
+        //    IQueryable<WordInEnglish> list = null;
+        //    for (int i = 0; i < listOfTrans.Count(); i++)
+        //    {
+        //        list.Add(listOfTrans[i].WordInEnglish);
+        //    }
+        //    return list;
+        //}
     }
 }
