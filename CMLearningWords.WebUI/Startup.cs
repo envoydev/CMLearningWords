@@ -8,6 +8,7 @@ using CMLearningWords.AccessToData.Repository.Interfaces;
 using CMLearningWords.WebUI.Automapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +27,9 @@ namespace CMLearningWords.WebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddCaching();
+            services.AddMemoryCache();
+            services.AddSession();
             services.AddMvc();
             //Contection to database
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(ApplicationContextFactory.Path));
@@ -39,6 +43,8 @@ namespace CMLearningWords.WebUI
             var configAutomapper = new AutoMapper.MapperConfiguration(cfg => { cfg.AddProfile(new AutomapperProfile()); });
             var mapper = configAutomapper.CreateMapper();
             services.AddSingleton(mapper);
+
+            services.AddSingleton<ITempDataProvider, SessionStateTempDataProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,6 +59,7 @@ namespace CMLearningWords.WebUI
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            app.UseSession();
 
             app.UseStaticFiles();
 

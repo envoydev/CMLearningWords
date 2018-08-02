@@ -42,10 +42,22 @@ namespace CMLearningWords.AccessToData.Repository.Classes
         public virtual IQueryable<T> GetAllIQueryableWithInclude(Expression<Func<T, object>> include = null, Expression<Func<T, object>> thenInclude = null)
         {
             if (include != null && thenInclude != null)
-                return entity.AsNoTracking().Include(include).Include(thenInclude).AsNoTracking();
+                return entity.AsNoTracking().Include(include).Include(thenInclude);
             else if (include != null && thenInclude == null)
                 return entity.AsNoTracking().Include(include).AsNoTracking();
             return entity.AsNoTracking();
+        }
+
+        public async virtual Task<IQueryable<T>> GetAllIQueryableWithIncludesAsync(Expression<Func<T, object>> include = null, Expression<Func<T, object>> thenInclude = null)
+        {
+            dynamic result;
+            if (include != null && thenInclude != null)
+                result = await entity.Include(include).Include(thenInclude).ToListAsync();
+            else if (include != null && thenInclude == null)
+                result = await entity.Include(include).ToListAsync();
+            else
+                result = await entity.ToListAsync();
+            return result;
         }
 
         //Get one element by id

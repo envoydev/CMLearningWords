@@ -1,0 +1,112 @@
+﻿private readonly IWordInEnglishRepository WordsInEnglishContext; // context of WordsInEnglish
+        private readonly ITranslationOfWordRepository TranslationsOfWordContext; // context of TranslationsOfWord
+        private readonly IStageOfMethodRepository StageOfMethodsContext; // context of StageOfMethods
+        private readonly IMapper Mapper; // Mapper for ViewModels
+
+        //List<CreatedTestYourselfViewModel> listOfTestWords = null;
+
+        //Constructor with parameters
+        public TestYourselfController(IWordInEnglishRepository wordsInEnglishContext,
+                                        ITranslationOfWordRepository translationsOfWordContext,
+                                        IStageOfMethodRepository stageOfMethodsContext,
+                                        IMapper mapper)
+        {
+            WordsInEnglishContext = wordsInEnglishContext;
+            TranslationsOfWordContext = translationsOfWordContext;
+            StageOfMethodsContext = stageOfMethodsContext;
+            Mapper = mapper;
+        }
+
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Index(GenerateTestYourselfViewModel model)
+        {
+            if (model != null)
+            {
+                if (ModelState.IsValid)
+                {
+                    Random rand = new Random();
+                    List<WordInEnglish> words = WordsInEnglishContext.GetAllIQueryableWithInclude(w => w.StageOfMethod, w => w.TranslationOfWords).ToList();
+                    List<WordInEnglish> currentWords = new List<WordInEnglish>();
+                    for (int i = 0; i < model.Number; i++)
+                    {
+                        int rnd = rand.Next(1, words.Count());
+                        currentWords.Add(words[rnd]);
+                        words.Remove(words[rnd]);
+                    }
+                    TempData["WordsForTest"] = currentWords;
+
+                    return PartialView("_Success");
+                }
+            }
+            //listOfTestWords.AddRange(Mapper.Map<List<WordInEnglish>, List<CreatedTestYourselfViewModel>>(currentWords));
+            return View(model);
+        }
+
+        public IActionResult TestPage(List<WordInEnglish> wordsForTest)
+        {
+            List<CreatedTestYourselfViewModel> wordsForTestModel = Mapper.Map<List<WordInEnglish>, List<CreatedTestYourselfViewModel>>(wordsForTest);
+            return View(wordsForTestModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult TestPage(List<CreatedTestYourselfViewModel> results)
+        {
+
+            if (results != null)
+            {
+                if (ModelState.IsValid)
+                {
+                    for (int i = 0; i < results.Count; i++)
+                    {
+                        if (!CompareResultWithTranslation(results[i]))
+                        {
+                            results[i].MadeMistake = true;
+                        }
+                    }
+
+                    TempData["ResultsOfTest"] = results;
+
+                    return View("ResultsOfTest");
+                }
+            }
+
+            return View(results);
+        }
+
+        public IActionResult ResultsOfTest()
+        {
+            List<CreatedTestYourselfViewModel> model = (List<CreatedTestYourselfViewModel>)TempData["ResultsOfTest"];
+            return View(model);
+        }
+
+        //If find a compare returns true
+        private bool CompareResultWithTranslation(CreatedTestYourselfViewModel oneItem)
+        {
+            bool result = false;
+            for (int i = 0; i < oneItem.TranslationOfWords.Count; i++)
+            {
+                if (oneItem.NameOfCurrentInputTranslation == oneItem.TranslationOfWords[i].Name)
+                {
+                    result = true;
+                    break;
+                }
+            }
+            return result;
+        }
+
+        //Close all connections
+        protected override void Dispose(bool disposing)
+        {
+            WordsInEnglishContext.Dispose();
+            TranslationsOfWordContext.Dispose();
+            StageOfMethodsContext.Dispose();
+            base.Dispose(disposing);
+        }

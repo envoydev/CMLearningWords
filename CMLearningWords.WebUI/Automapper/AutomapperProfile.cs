@@ -13,8 +13,10 @@ namespace CMLearningWords.WebUI.Automapper
         public AutomapperProfile()
         {
             //Mapping WordIntEnglish
-            CreateMap<CreateWordInEnglishViewModel, WordInEnglish>().ReverseMap();
             CreateMap<WordInEnglish, CreateWordInEnglishViewModel>().ReverseMap();
+            CreateMap<CreateWordInEnglishViewModel, WordInEnglish>().ReverseMap();
+            CreateMap<WordInEnglish, CreatedTestYourselfViewModel>().ReverseMap();
+            CreateMap<CreatedTestYourselfViewModel, WordInEnglish>().ReverseMap();
 
             //Mapping TranslationOfWord
             CreateMap<CreateTranslationOfWordViewModel, TranslationOfWord>().ReverseMap();
