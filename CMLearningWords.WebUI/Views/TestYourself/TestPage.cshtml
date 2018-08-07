@@ -13,12 +13,14 @@
     <input type="hidden" class="validation" asp-validation-summary="ModeOnly">
     @for (int i = 0; i < words.Count(); i++, counter++)
     {
-        <div class="form-group">
-            <label>@counter</label>
-            <label>@words[i].Name</label>
-            <input asp-for="@words[i].NameOfCurrentInputTranslation" class="form-control custom-control" required />
-            <span asp-validation-for="@words[i].NameOfCurrentInputTranslation" class="form-text text-danger"></span>
-        </div>
+
+    <div class="form-group">
+        <input type="hidden" asp-for="@words[i].Id" />
+        <label>@counter</label>
+        <label>@words[i].Name</label>
+        <input asp-for="@words[i].NameOfCurrentInputTranslation" class="form-control custom-control" required />
+        <span asp-validation-for="@words[i].NameOfCurrentInputTranslation" class="form-text text-danger"></span>
+    </div>
 
     }
     <input type="submit" value="Закончить тест" class="btn btn-primary" />

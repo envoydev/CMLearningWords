@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CMLearningWords.AccessToData.Repository.Interfaces;
 using CMLearningWords.DataModels.Models;
+using CMLearningWords.WebUI.Extensions;
 using CMLearningWords.WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -59,9 +60,8 @@ namespace CMLearningWords.WebUI.Controllers
                         currentWords.Add(words[rnd]);
                         words.Remove(words[rnd]);
                     }
-
+                    
                     List<CreatedTestYourselfViewModel> mapped = Mapper.Map<List<WordInEnglish>, List<CreatedTestYourselfViewModel>>(currentWords);
-                    //TempData["Temp"] = mapped;
                     return View(mapped);
                 }
             }
@@ -81,10 +81,9 @@ namespace CMLearningWords.WebUI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    List<CreatedTestYourselfViewModel> newList = (List<CreatedTestYourselfViewModel>)TempData["Temp"];
                     for (int i = 0; i < words.Count; i++)
                     {
-                        if (!CompareResultWithTranslation(words[i], newList[i]))
+                        if (CompareResultWithTranslation(words[i]))
                         {
                             words[i].MadeMistake = true;
                         }
@@ -96,12 +95,13 @@ namespace CMLearningWords.WebUI.Controllers
         }
 
         //If find a compare returns true
-        private bool CompareResultWithTranslation(CreatedTestYourselfViewModel oneItem, CreatedTestYourselfViewModel temp)
+        private bool CompareResultWithTranslation(CreatedTestYourselfViewModel oneItem)
         {
+            WordInEnglish word = WordsInEnglishContext.FindWithInclude(w => w.Id == oneItem.Id, w => w.TranslationOfWords).FirstOrDefault();
             bool result = false;
-            for (int i = 0; i < oneItem.TranslationOfWords.Count(); i++)
+            for (int i = 0; i < word.TranslationOfWords.Count(); i++)
             {
-                if (oneItem.NameOfCurrentInputTranslation == temp.TranslationOfWords[i].Name)
+                if (word.TranslationOfWords[i].Name.Contains(oneItem.NameOfCurrentInputTranslation))
                 {
                     result = true;
                     break;

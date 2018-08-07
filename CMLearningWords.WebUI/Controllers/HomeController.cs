@@ -52,16 +52,16 @@ namespace CMLearningWords.WebUI.Controllers
             //TODO add to html this possibility
             switch (sortOrder)
             {
-                case SortIndexHome.StageOfMethodAsc :
+                case SortIndexHome.WordInEnglishAsc:
                     wordsInEnglish = wordsInEnglish.OrderBy(w => w.Name);
                     break;
-                case SortIndexHome.StageOfMethodDesc :
+                case SortIndexHome.WordInEnglishDesc:
                     wordsInEnglish = wordsInEnglish.OrderByDescending(w => w.Name);
                     break;
-                case SortIndexHome.WordInEnglishAsc :
+                case SortIndexHome.StageOfMethodAsc :
                     wordsInEnglish = wordsInEnglish.OrderBy(w => w.StageOfMethod.Name);
                     break;
-                case SortIndexHome.WordInEnglishDesc :
+                case SortIndexHome.StageOfMethodDesc :
                     wordsInEnglish = wordsInEnglish.OrderByDescending(w => w.StageOfMethod.Name);
                     break;
             }
