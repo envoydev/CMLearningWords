@@ -29,53 +29,45 @@ namespace CMLearningWords.WebUI.Controllers
             StageOfMethodsContext = stageOfMethodsContext;
             Mapper = mapper;
         }
-        //private List<CreatedTestYourselfViewModel> List { get; set; } = new List<CreatedTestYourselfViewModel>();
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
-
-        [HttpGet]
-        public IActionResult TestPage()
-        {
-            return View();
-        }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult TestPage(GenerateTestYourselfViewModel model)
-        {   
+        public IActionResult Index(GenerateTestYourselfViewModel model)
+        {
             if (model != null)
             {
                 if (ModelState.IsValid)
                 {
-                    Random rand = new Random();
-                    List<WordInEnglish> words = WordsInEnglishContext.GetAllIQueryableWithInclude(w => w.StageOfMethod, w => w.TranslationOfWords).ToList();
-                    List<WordInEnglish> currentWords = new List<WordInEnglish>();
-
-                    for (int i = 0; i < model.Number; i++)
-                    {
-                        int rnd = rand.Next(1, words.Count());
-                        currentWords.Add(words[rnd]);
-                        words.Remove(words[rnd]);
-                    }
-                    
-                    List<CreatedTestYourselfViewModel> mapped = Mapper.Map<List<WordInEnglish>, List<CreatedTestYourselfViewModel>>(currentWords);
-                    return View(mapped);
+                    return RedirectToAction("TestPage", "TestYourself", new { arrayOfNumbers = GetNumbers(model.Number) });
                 }
             }
-            return View("Index", model);
+            return View(model);
         }
 
         [HttpGet]
-        public IActionResult ResultOfTest()
+        public IActionResult TestPage(int[] arrayOfNumbers)
         {
-            return View();
+            List<WordInEnglish> words = WordsInEnglishContext.GetAllIQueryableWithInclude(w => w.TranslationOfWords).ToList();
+            List<WordInEnglish> currentWords = new List<WordInEnglish>();
+
+            for (int i = 0; i < arrayOfNumbers.Length; i++)
+            {
+                currentWords.Add(words[arrayOfNumbers[i]]);
+            }
+
+            List<CreatedTestYourselfViewModel> mapped = Mapper.Map<List<WordInEnglish>, List<CreatedTestYourselfViewModel>>(currentWords);
+            return View(mapped);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ResultOfTest(List<CreatedTestYourselfViewModel> words)
+        public IActionResult TestPage(List<CreatedTestYourselfViewModel> words)
         {
             if (words != null)
             {
@@ -84,14 +76,17 @@ namespace CMLearningWords.WebUI.Controllers
                     for (int i = 0; i < words.Count; i++)
                     {
                         if (CompareResultWithTranslation(words[i]))
-                        {
                             words[i].MadeMistake = true;
-                        }
                     }
-                    return View(words);
+                    return View("ResultOfTest", words);
                 }
             }
-            return View("TestPage", words);
+            return View(words);
+        }
+
+        public IActionResult ResultOfTest()
+        {
+            return View();
         }
 
         //If find a compare returns true
@@ -101,13 +96,32 @@ namespace CMLearningWords.WebUI.Controllers
             bool result = false;
             for (int i = 0; i < word.TranslationOfWords.Count(); i++)
             {
-                if (word.TranslationOfWords[i].Name.Contains(oneItem.NameOfCurrentInputTranslation))
+                if (word.TranslationOfWords[i].Name == oneItem.NameOfCurrentInputTranslation.Trim())
                 {
                     result = true;
                     break;
                 }
             }
             return result;
+        }
+
+        //Generate random numbers depending on amount of words in table and parametr
+        private int[] GetNumbers(int value)
+        {
+            Random rand = new Random();
+            int CountAllWords = (WordsInEnglishContext.GetAllIQueryableWithInclude()).Count();
+            int[] arrayValues = new int[value];
+
+            for (int i = 0; i < value; i++)
+            {
+                int rnd = rand.Next(0, CountAllWords);
+
+                if (!arrayValues.Contains(rnd))
+                    arrayValues[i] = rnd;
+                else
+                    i--;
+            }
+            return arrayValues;
         }
 
         //Close all connections
