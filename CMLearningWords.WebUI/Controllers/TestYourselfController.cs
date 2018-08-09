@@ -44,15 +44,17 @@ namespace CMLearningWords.WebUI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    return RedirectToAction("TestPage", "TestYourself", new { arrayOfNumbers = GetNumbers(model.Number) });
+                    //return RedirectToAction("TestPage", "TestYourself", new { arrayOfNumbers = GetNumbers(model.Number) });
+                    TempData["Temp"] = GetNumbers(model.Number);
+                    return RedirectToAction("TestPage", "TestYourself");
                 }
             }
             return View(model);
         }
-
         [HttpGet]
-        public IActionResult TestPage(int[] arrayOfNumbers)
+        public IActionResult TestPage()
         {
+            int[] arrayOfNumbers = TempData["Temp"] as int[];
             List<WordInEnglish> words = WordsInEnglishContext.GetAllIQueryableWithInclude(w => w.TranslationOfWords).ToList();
             List<WordInEnglish> currentWords = new List<WordInEnglish>();
 
@@ -64,6 +66,20 @@ namespace CMLearningWords.WebUI.Controllers
             List<CreatedTestYourselfViewModel> mapped = Mapper.Map<List<WordInEnglish>, List<CreatedTestYourselfViewModel>>(currentWords);
             return View(mapped);
         }
+        //[HttpGet]
+        //public IActionResult TestPage(int[] arrayOfNumbers)
+        //{
+        //    List<WordInEnglish> words = WordsInEnglishContext.GetAllIQueryableWithInclude(w => w.TranslationOfWords).ToList();
+        //    List<WordInEnglish> currentWords = new List<WordInEnglish>();
+
+        //    for (int i = 0; i < arrayOfNumbers.Length; i++)
+        //    {
+        //        currentWords.Add(words[arrayOfNumbers[i]]);
+        //    }
+
+        //    List<CreatedTestYourselfViewModel> mapped = Mapper.Map<List<WordInEnglish>, List<CreatedTestYourselfViewModel>>(currentWords);
+        //    return View(mapped);
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
