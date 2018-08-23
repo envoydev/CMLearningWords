@@ -26,9 +26,9 @@ namespace CMLearningWords.WebUI.Controllers
         public IActionResult Index()
         {
             //Use for Titile in html
-            ViewData["Title"] = "Список категорий";
+            ViewData["Title"] = "Создать стейдж";
             //Use for head in page
-            ViewBag.HeadPageText = "Список категорий";
+            ViewBag.HeadPageText = "Создать стейдж";
             //Get all stages from database
             return View(StageOfMethodsContext.GetAllIQueryableWithInclude().ToList());
         }
@@ -37,9 +37,9 @@ namespace CMLearningWords.WebUI.Controllers
         public IActionResult Create()
         {
             //Use for Titile in html
-            ViewData["Title"] = "Добавить категорию";
+            ViewData["Title"] = "Создать стейдж";
             //Use for head in page
-            ViewBag.HeadPageText = "Создать категорию";
+            ViewBag.HeadPageText = "Создать стейдж";
             //Go to create view
             return View();
         }
@@ -49,9 +49,9 @@ namespace CMLearningWords.WebUI.Controllers
         public async Task<IActionResult> Create(CreateStageOfMethodViewModel newStage)
         {
             //Use for Titile in html
-            ViewData["Title"] = "Добавить категорию";
+            ViewData["Title"] = "Создать стейдж";
             //Use for head in page
-            ViewBag.HeadPageText = "Создать категорию";
+            ViewBag.HeadPageText = "Создать стейдж";
             //Check newStage on null
             if (newStage != null)
             {
@@ -62,7 +62,7 @@ namespace CMLearningWords.WebUI.Controllers
                     StageOfMethod currentStage = Mapper.Map<CreateStageOfMethodViewModel, StageOfMethod>(newStage);
                     await StageOfMethodsContext.Add(currentStage);
                     //ViewBags for "_Success" view
-                    ViewBag.SuccessText = "Категория успешно добавлена";
+                    ViewBag.SuccessText = "Стейдж успешно добавлен";
                     ViewBag.MethodRedirect = "Index";
                     ViewBag.ControllerRedirect = "StageOfMethod";
                     //Render user on temporary view "Views/Shared/_Success"

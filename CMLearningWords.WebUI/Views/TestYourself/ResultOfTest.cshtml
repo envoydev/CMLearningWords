@@ -1,23 +1,68 @@
 ﻿@model IEnumerable<CreatedTestYourselfViewModel>
 @{
-    ViewData["Title"] = "ResultsOfTest";
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<CreatedTestYourselfViewModel> listOfResults = (List<CreatedTestYourselfViewModel>)Model.ToList();
+    int count = 1;
 }
 
-<h2>ResultsOfTest</h2>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>@ViewBag.HeadPageText</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <table class="table" id="tableContent">
+                    <thead class="thead-inverse">
+                        <tr>
+                            <th>#</th>
+                            <th>Слово</th>
+                            <th>Переводы</th>
+                            <th>Ответ в тесте</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataView">
+                        @if (listOfResults.Count > 0)
+                        {
+                            for (int i = 0; i < listOfResults.Count; i++, count++)
+                            {
+                                <tr>
+                                    <td class="resultOfTest">@count</td>
+                                    <td class="resultOfTest">@listOfResults[i].Name</td>
+                                    <td class="resultOfTest">
+                                        @foreach (var translation in listOfResults[i].TranslationOfWords)
+                                        {
+                                            <p>@translation.Name</p>
+                                        }
+                                    </td>
+                                    @if (listOfResults[i].MadeMistake == ExeptionInTranslation.WithoutMistake)
+                                    {
+                                        <td class="resultOfTest" style="background-color: green;">@listOfResults[i].NameOfCurrentInputTranslation</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="resultOfTest" style="background-color: red;">@listOfResults[i].NameOfCurrentInputTranslation</td>
 
-@Html.AntiForgeryToken()
-<input type="hidden" class="validation" asp-validation-summary="ModeOnly">
-@for (int i = 0; i < listOfResults.Count(); i++)
-{
-    if (listOfResults[i].MadeMistake == true)
-    {
-        <span><strong>+</strong></span><br />
-    }
-    else
-    {
-        <span>+</span><br />
-
-    }
-}
+                                    }
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            @Html.Partial("_NotFound")
+                        }
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-md-12">
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Вернуться на главную</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

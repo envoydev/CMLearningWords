@@ -1,4 +1,5 @@
 ﻿using CMLearningWords.DataModels.Models;
+using CMLearningWords.WebUI.Enums;
 using CMLearningWords.WebUI.HelpAttributes;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,6 @@ namespace CMLearningWords.WebUI.Models
         [Required(ErrorMessage = "Поля обязательно для заполнения")]
         public string NameOfCurrentInputTranslation { get; set; }
 
-        public bool MadeMistake { get; set; } = false;
+        public ExeptionInTranslation MadeMistake { get; set; } = ExeptionInTranslation.WithMistake;
     }
 }

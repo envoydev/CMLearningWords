@@ -6,7 +6,7 @@
     List<CreatedTestYourselfViewModel> words = (List<CreatedTestYourselfViewModel>)Model.ToList();
 }
 
-<h2>Test</h2>
+<h2>@ViewBag.HeadPageText</h2>
 
 <form asp-antiforgery="true" asp-controller="TestYourself" asp-action="TestPage" method="post">
     @Html.AntiForgeryToken()
@@ -16,7 +16,7 @@
 
     <div class="form-group">
         <input type="hidden" asp-for="@words[i].Id" />
-        <label>@counter</label>
+        <label>@counter.</label>
         <label>@words[i].Name</label>
         <input asp-for="@words[i].NameOfCurrentInputTranslation" class="form-control custom-control" required />
         <span asp-validation-for="@words[i].NameOfCurrentInputTranslation" class="form-text text-danger"></span>

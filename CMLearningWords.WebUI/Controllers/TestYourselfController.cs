@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CMLearningWords.AccessToData.Repository.Interfaces;
 using CMLearningWords.DataModels.Models;
+using CMLearningWords.WebUI.Enums;
 using CMLearningWords.WebUI.Extensions;
 using CMLearningWords.WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,11 @@ namespace CMLearningWords.WebUI.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            //Use for Titile in html
+            ViewData["Title"] = "Список категорий";
+            //Use for head in page
+            ViewBag.HeadPageText = "Список категорий";
+
             return View();
         }
 
@@ -40,6 +46,11 @@ namespace CMLearningWords.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Index(GenerateTestYourselfViewModel model)
         {
+            //Use for Titile in html
+            ViewData["Title"] = "Список категорий";
+            //Use for head in page
+            ViewBag.HeadPageText = "Список категорий";
+
             if (model != null)
             {
                 if (ModelState.IsValid)
@@ -54,6 +65,11 @@ namespace CMLearningWords.WebUI.Controllers
         [HttpGet]
         public IActionResult TestPage()
         {
+            //Use for Titile in html
+            ViewData["Title"] = "Начало теста";
+            //Use for head in page
+            ViewBag.HeadPageText = "Начало теста";
+
             int[] arrayOfNumbers = TempData["Temp"] as int[];
             List<WordInEnglish> words = WordsInEnglishContext.GetAllIQueryableWithInclude(w => w.TranslationOfWords).ToList();
             List<WordInEnglish> currentWords = new List<WordInEnglish>();
@@ -66,59 +82,83 @@ namespace CMLearningWords.WebUI.Controllers
             List<CreatedTestYourselfViewModel> mapped = Mapper.Map<List<WordInEnglish>, List<CreatedTestYourselfViewModel>>(currentWords);
             return View(mapped);
         }
-        //[HttpGet]
-        //public IActionResult TestPage(int[] arrayOfNumbers)
-        //{
-        //    List<WordInEnglish> words = WordsInEnglishContext.GetAllIQueryableWithInclude(w => w.TranslationOfWords).ToList();
-        //    List<WordInEnglish> currentWords = new List<WordInEnglish>();
-
-        //    for (int i = 0; i < arrayOfNumbers.Length; i++)
-        //    {
-        //        currentWords.Add(words[arrayOfNumbers[i]]);
-        //    }
-
-        //    List<CreatedTestYourselfViewModel> mapped = Mapper.Map<List<WordInEnglish>, List<CreatedTestYourselfViewModel>>(currentWords);
-        //    return View(mapped);
-        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult TestPage(List<CreatedTestYourselfViewModel> words)
         {
+            //Use for Titile in html
+            ViewData["Title"] = "Результат теста";
+            
+            int countCorrectWords = 0;
+
             if (words != null)
             {
                 if (ModelState.IsValid)
                 {
                     for (int i = 0; i < words.Count; i++)
                     {
-                        if (CompareResultWithTranslation(words[i]))
-                            words[i].MadeMistake = true;
+                        words[i] = CompareResultWithTranslation(words[i]);
+
+                        if (words[i].MadeMistake == ExeptionInTranslation.WithoutMistake)
+                            countCorrectWords++;
+
                     }
+
+                    //Use for head in page
+                    ViewBag.HeadPageText = $"Ваш результат теста {countCorrectWords} из {words.Count}";
+
                     return View("ResultOfTest", words);
                 }
             }
+
+
             return View(words);
         }
 
         public IActionResult ResultOfTest()
         {
+            //Use for Titile in html
+            ViewData["Title"] = "Результат теста";
+            //Use for head in page
+            ViewBag.HeadPageText = "Результат теста";
+
             return View();
         }
 
         //If find a compare returns true
-        private bool CompareResultWithTranslation(CreatedTestYourselfViewModel oneItem)
+        //private bool CompareResultWithTranslation(CreatedTestYourselfViewModel oneItem)
+        //{
+        //    WordInEnglish word = WordsInEnglishContext.FindWithInclude(w => w.Id == oneItem.Id, w => w.TranslationOfWords).FirstOrDefault();
+        //    bool result = false;
+        //    for (int i = 0; i < word.TranslationOfWords.Count(); i++)
+        //    {
+        //        if (word.TranslationOfWords[i].Name == oneItem.NameOfCurrentInputTranslation.Trim())
+        //        { 
+        //            result = true;
+        //            break;
+        //        }
+        //    }
+        //    return result;
+        //}
+
+        private CreatedTestYourselfViewModel CompareResultWithTranslation(CreatedTestYourselfViewModel oneItem)
         {
             WordInEnglish word = WordsInEnglishContext.FindWithInclude(w => w.Id == oneItem.Id, w => w.TranslationOfWords).FirstOrDefault();
-            bool result = false;
+
+            oneItem.Name = word.Name;
+            oneItem.TranslationOfWords = word.TranslationOfWords;
+            oneItem.MadeMistake = ExeptionInTranslation.WithMistake;
+
             for (int i = 0; i < word.TranslationOfWords.Count(); i++)
             {
                 if (word.TranslationOfWords[i].Name == oneItem.NameOfCurrentInputTranslation.Trim())
                 {
-                    result = true;
+                    oneItem.MadeMistake = ExeptionInTranslation.WithoutMistake;
                     break;
                 }
             }
-            return result;
+            return oneItem;
         }
 
         //Generate random numbers depending on amount of words in table and parametr

@@ -31,12 +31,12 @@
                             for (int i = 0; i < stagesList.Count; i++, count++)
                             {
                                 <tr>
-                                    <th>@count</th>
-                                    <th>@stagesList[i].Name</th>
+                                    <td class="stage">@count</td>
+                                    <td class="stage">@stagesList[i].Name</td>
 
-                                    <th><a asp-controller="WordInEnglish" asp-action="Details" asp-route-id="@stagesList[i].Id"><span class="glyphicon glyphicon-info-sign"></span></a></th>
-                                    <th><a asp-controller="WordInEnglish" asp-action="Edit" asp-route-id="@stagesList[i].Id"><span class="glyphicon glyphicon-edit"></span></a></th>
-                                    <th><a asp-controller="WordInEnglish" asp-action="Delete" asp-route-id="@stagesList[i].Id"><span class="glyphicon glyphicon-trash"></span></a></th>
+                                    <td class="stage"><a asp-controller="WordInEnglish" asp-action="Details" asp-route-id="@stagesList[i].Id"><span class="glyphicon glyphicon-info-sign"></span></a></td>
+                                    <td class="stage"><a asp-controller="WordInEnglish" asp-action="Edit" asp-route-id="@stagesList[i].Id"><span class="glyphicon glyphicon-edit"></span></a></td>
+                                    <td class="stage"><a asp-controller="WordInEnglish" asp-action="Delete" asp-route-id="@stagesList[i].Id"><span class="glyphicon glyphicon-trash"></span></a></td>
                                 </tr>
                             }
                         }

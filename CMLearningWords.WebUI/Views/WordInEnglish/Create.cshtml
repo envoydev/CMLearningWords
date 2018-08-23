@@ -28,11 +28,11 @@
                 <label asp-for="Translations[0].Name"></label>
                 <div id="containerOfTranslations">
                     <fieldset class="translationFiled">
-                        <input asp-for="Translations[0].Name" additionalFiled="translationFiledinput" class="form-control custom-control" required />
+                        <input asp-for="Translations[0].Name" additionalFiled="translationFiledinput" class="form-control custom-control translation-filed" required />
                         <span asp-validation-for="Translations[0].Name" spanField="validationSpan" class="form-text text-danger"></span>
                     </fieldset>
                 </div>
-                <input type="button" name="addButton" value="Добавить еще один перевод" />
+                <input type="button" name="addButton" value="Добавить еще один перевод" class="btn btn-success"/>
             </div>
 
             <input type="submit" value="Добавить слово" class="btn btn-primary" />
@@ -54,11 +54,12 @@
             var countFiledSets = document.getElementsByClassName("translationFiled").length;
             var lastFiled = document.getElementsByClassName("translationFiled")[countFiledSets - 1];
             //if view page has only single <fieldset>
-            if ((countFiledSets - 1) == 0) {
+            if ((countFiledSets - 1) === 0) {
                 var dublicated = dublicateField(lastFiled);
                 clearFiled(dublicated);
                 addButtonInputForDeleting(dublicated);
                 var inputFiled = dublicated.querySelectorAll("[additionalFiled='translationFiledinput']")[0];
+                inputFiled.className += " translation-filed";
                 changeIdOfInput(inputFiled);
                 var spanField = dublicated.querySelectorAll("[spanField='validationSpan']")[0];
                 addSpanValidation(spanField);
@@ -129,9 +130,7 @@
 
         //add to button "addButton" action
         addButton.addEventListener("click", addElements);
-        
-
-        
+        //
     </script>
 }
 
