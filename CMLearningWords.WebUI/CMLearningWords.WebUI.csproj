@@ -2,12 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <PublishDir>$(OutDir)_PublishedWebsites\NetCoreWebApp\</PublishDir>
+    <PublishDir>$(OutDir)_PublishedWebsites\NetCoreApp\</PublishDir>
   </PropertyGroup>
-
-    <PropertyGroup>
-        <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
-    </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
