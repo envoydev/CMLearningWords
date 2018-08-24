@@ -5,6 +5,10 @@
     <PublishDir>$(OutDir)_PublishedWebsites\NetCoreWebApp\</PublishDir>
   </PropertyGroup>
 
+    <PropertyGroup>
+        <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
+    </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
@@ -21,10 +25,6 @@
   <ItemGroup>
     <ProjectReference Include="..\CMLearningWords.AccessToData\CMLearningWords.AccessToData.csproj" />
     <ProjectReference Include="..\CMLearningWords.DataModels\CMLearningWords.DataModels.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\TransltaionOfWord\" />
   </ItemGroup>
 
 </Project>
