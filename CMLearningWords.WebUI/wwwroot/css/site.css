@@ -63,7 +63,7 @@ td, th {
 }
 .translation-filed {
     display: inline-block !important;
-    width: 80% !important;
+    width: 78% !important;
 }
 .delete-button {
     display: inline-block !important;
@@ -87,6 +87,9 @@ td, th {
 }
 .translationFiled {
     margin-bottom: 10px;
+}
+.translationFiled span span {
+    display: block;
 }
 .half-size {
     width: 50% !important;

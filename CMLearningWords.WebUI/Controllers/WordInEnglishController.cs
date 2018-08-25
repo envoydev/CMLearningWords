@@ -61,6 +61,11 @@ namespace CMLearningWords.WebUI.Controllers
                 {
                     //Work with data
                     WordInEnglish currentWord = Mapper.Map<CreateWordInEnglishViewModel, WordInEnglish>(word);
+                    currentWord.Name.Trim();
+                    foreach(var translation in currentWord.TranslationOfWords)
+                    {
+                        translation.Name.Trim();
+                    }
                     await WordsInEnglishContext.Add(currentWord);
                     //Add many translations, user method "GetTranslationsFromStringArray" to make new object of TranslationOfWord type
                     await TranslationsOfWordContext.AddMany(GetTranslationsFromListAndGiveIdOfWordInEnglish(word.Translations, currentWord.Id));

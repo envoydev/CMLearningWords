@@ -10,6 +10,7 @@ using AutoMapper;
 using CMLearningWords.DataModels.Models;
 using CMLearningWords.WebUI.Enums;
 using System.Text.RegularExpressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace CMLearningWords.WebUI.Controllers
 {
@@ -44,7 +45,13 @@ namespace CMLearningWords.WebUI.Controllers
             if(!String.IsNullOrEmpty(nameOfWord))
             {
                 if (!Regex.IsMatch(nameOfWord, @"\P{IsCyrillic}"))
-                    wordsInEnglish = wordsInEnglish.Where(w => w.Name.Contains(nameOfWord));
+                {
+                    wordsInEnglish = wordsInEnglish.SelectMany(tow => tow.TranslationOfWords)
+                        .Where(tow => tow.Name.Contains(nameOfWord))
+                        .Select(w => w.WordInEnglish)
+                        .Include(w => w.StageOfMethod)
+                        .Include(w => w.TranslationOfWords);
+                }
                 else
                     wordsInEnglish = wordsInEnglish.Where(w => w.Name.Contains(nameOfWord));
             }

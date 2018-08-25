@@ -22,7 +22,6 @@ namespace CMLearningWords.WebUI.Models
         [Required(ErrorMessage = "Поле обязательно для заполнения")]
         public long StageOfMethodId { get; set; }
 
-
         public List<CreateTranslationOfWordViewModel> Translations { get; set; }
 
         //For dropdown list

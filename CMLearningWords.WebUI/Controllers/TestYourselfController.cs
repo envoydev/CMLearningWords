@@ -9,6 +9,7 @@ using CMLearningWords.WebUI.Enums;
 using CMLearningWords.WebUI.Extensions;
 using CMLearningWords.WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace CMLearningWords.WebUI.Controllers
@@ -34,12 +35,14 @@ namespace CMLearningWords.WebUI.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            //Use for Titile in html
-            ViewData["Title"] = "Список категорий";
-            //Use for head in page
-            ViewBag.HeadPageText = "Список категорий";
+            List<StageOfMethod> stages = StageOfMethodsContext.GetAllIQueryableWithInclude().ToList();
+            stages.Insert(0, new StageOfMethod { Name = "Со всех стейджов", Id = 0 });
+            GenerateTestYourselfViewModel model = new GenerateTestYourselfViewModel
+            {
+                AllStages = new SelectList(stages, "Id", "Name")
+            };
 
-            return View();
+            return View(model);
         }
 
         [HttpPost]
@@ -51,15 +54,28 @@ namespace CMLearningWords.WebUI.Controllers
             //Use for head in page
             ViewBag.HeadPageText = "Список категорий";
 
+            int amountOfWords;
+
+            if (!CountAllWordsOfStage(model.StageId, model.Number, out amountOfWords))
+                ModelState.AddModelError("Number", $"Максимальное количесто слов в этом стейдже {amountOfWords}");
+
+
             if (model != null)
             {
                 if (ModelState.IsValid)
                 {
-                    //return RedirectToAction("TestPage", "TestYourself", new { arrayOfNumbers = GetNumbers(model.Number) });
-                    TempData["Temp"] = GetNumbers(model.Number);
+                    TempData["AmountOfWords"] = GetNumbers(model.Number);
+                    TempData["StageId"] = model.StageId;
+
                     return RedirectToAction("TestPage", "TestYourself");
                 }
             }
+
+            List<StageOfMethod> stages = StageOfMethodsContext.GetAllIQueryableWithInclude().ToList();
+            stages.Insert(0, new StageOfMethod { Name = "Со всех стейджов", Id = 0 });
+
+            model.AllStages = new SelectList(stages, "Id", "Name", model.StageId);
+
             return View(model);
         }
         [HttpGet]
@@ -70,8 +86,19 @@ namespace CMLearningWords.WebUI.Controllers
             //Use for head in page
             ViewBag.HeadPageText = "Начало теста";
 
-            int[] arrayOfNumbers = TempData["Temp"] as int[];
-            List<WordInEnglish> words = WordsInEnglishContext.GetAllIQueryableWithInclude(w => w.TranslationOfWords).ToList();
+            int[] arrayOfNumbers = TempData["AmountOfWords"] as int[];
+            int stageId = (int)TempData["StageId"];
+
+            List<WordInEnglish> words = new List<WordInEnglish>();
+
+            if (stageId != 0)
+            {
+                long currentStageId = (long)stageId;
+                words.AddRange(WordsInEnglishContext.GetAllIQueryableWithInclude(w => w.StageOfMethodId == currentStageId, w => w.TranslationOfWords).ToList());
+            }
+            else
+                words.AddRange(WordsInEnglishContext.GetAllIQueryableWithInclude(w => w.TranslationOfWords).ToList());
+
             List<WordInEnglish> currentWords = new List<WordInEnglish>();
 
             for (int i = 0; i < arrayOfNumbers.Length; i++)
@@ -126,21 +153,36 @@ namespace CMLearningWords.WebUI.Controllers
             return View();
         }
 
-        //If find a compare returns true
-        //private bool CompareResultWithTranslation(CreatedTestYourselfViewModel oneItem)
-        //{
-        //    WordInEnglish word = WordsInEnglishContext.FindWithInclude(w => w.Id == oneItem.Id, w => w.TranslationOfWords).FirstOrDefault();
-        //    bool result = false;
-        //    for (int i = 0; i < word.TranslationOfWords.Count(); i++)
-        //    {
-        //        if (word.TranslationOfWords[i].Name == oneItem.NameOfCurrentInputTranslation.Trim())
-        //        { 
-        //            result = true;
-        //            break;
-        //        }
-        //    }
-        //    return result;
-        //}
+        private bool CountAllWordsOfStage(long stageId, int number, out int countedWords)
+        {
+            if (stageId == 0)
+            {
+                int allWords = WordsInEnglishContext.GetAllIQueryableWithInclude().Count();
+                if (number > allWords)
+                {
+                    countedWords = allWords;
+                    return false;
+                }
+                else
+                {
+                    countedWords = 0;
+                    return true;
+                }
+            }
+
+            int amountOfWords = WordsInEnglishContext.FindWithInclude(w => w.StageOfMethodId == stageId).Count();
+
+            if (number > amountOfWords)
+            {
+                countedWords = amountOfWords;
+                return false;
+            }
+            else
+            {
+                countedWords = 0;
+                return true;
+            }
+        }
 
         private CreatedTestYourselfViewModel CompareResultWithTranslation(CreatedTestYourselfViewModel oneItem)
         {
