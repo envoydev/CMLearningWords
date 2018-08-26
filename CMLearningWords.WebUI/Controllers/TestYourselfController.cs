@@ -64,7 +64,7 @@ namespace CMLearningWords.WebUI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    TempData["AmountOfWords"] = GetNumbers(model.Number);
+                    TempData["AmountOfWords"] = GetNumbers(model.Number, model.StageId);
                     TempData["StageId"] = model.StageId;
 
                     return RedirectToAction("TestPage", "TestYourself");
@@ -94,7 +94,7 @@ namespace CMLearningWords.WebUI.Controllers
             if (stageId != 0)
             {
                 long currentStageId = (long)stageId;
-                words.AddRange(WordsInEnglishContext.GetAllIQueryableWithInclude(w => w.StageOfMethodId == currentStageId, w => w.TranslationOfWords).ToList());
+                words.AddRange(WordsInEnglishContext.FindWithInclude(w => w.StageOfMethodId == currentStageId, w => w.TranslationOfWords).ToList());
             }
             else
                 words.AddRange(WordsInEnglishContext.GetAllIQueryableWithInclude(w => w.TranslationOfWords).ToList());
@@ -131,15 +131,12 @@ namespace CMLearningWords.WebUI.Controllers
                             countCorrectWords++;
 
                     }
-
                     //Use for head in page
                     ViewBag.HeadPageText = $"Ваш результат теста {countCorrectWords} из {words.Count}";
 
                     return View("ResultOfTest", words);
                 }
             }
-
-
             return View(words);
         }
 
@@ -204,10 +201,18 @@ namespace CMLearningWords.WebUI.Controllers
         }
 
         //Generate random numbers depending on amount of words in table and parametr
-        private int[] GetNumbers(int value)
+        private int[] GetNumbers(int value, long stageId)
         {
             Random rand = new Random();
-            int CountAllWords = (WordsInEnglishContext.GetAllIQueryableWithInclude()).Count();
+            int CountAllWords = 0;
+            if (stageId == 0)
+            {
+                CountAllWords = (WordsInEnglishContext.GetAllIQueryableWithInclude()).Count();
+            }
+            else
+            {
+                CountAllWords = (WordsInEnglishContext.FindWithInclude(w => w.StageOfMethodId == stageId)).Count();
+            }
             int[] arrayValues = new int[value];
 
             for (int i = 0; i < value; i++)
