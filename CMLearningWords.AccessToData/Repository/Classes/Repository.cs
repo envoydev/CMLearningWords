@@ -104,6 +104,17 @@ namespace CMLearningWords.AccessToData.Repository.Classes
             }
         }
 
+        //Remove object T form table of T
+        public async virtual Task RemoveById(long id)
+        {
+            T item = await GetById(id);
+            if (item != null)
+            {    
+                entity.Remove(item);
+                await Context.SaveChangesAsync();
+            }
+        }
+
         //Close connections
         public virtual void Dispose(bool disposing)
         {

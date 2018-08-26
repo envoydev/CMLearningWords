@@ -33,6 +33,42 @@ namespace CMLearningWords.WebUI.Controllers
             return View();
         }
 
+        //[HttpGet]
+        //public IActionResult Delete(long? id)
+        //{
+
+        //    return View();
+        //}
+
+        [HttpPost]
+        [ActionName("Delete")]
+        public async Task<IActionResult> Delete(long? id)
+        {
+            if (id == null)
+                return BadRequest();
+
+            long currentId = id ?? 0;
+
+            await TranslationsOfWordContext.RemoveById(currentId);
+
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> DeleteByJson(long? id)
+        {
+            if (id == null)
+                return new JsonResult(id);
+
+            long currentId = id ?? 0;
+
+            await TranslationsOfWordContext.RemoveById(currentId);
+
+            var text = true;
+
+            return new JsonResult(text);
+        }
+
         //Close all connections
         protected override void Dispose(bool disposing)
         {

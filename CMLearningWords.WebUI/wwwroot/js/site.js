@@ -1,7 +1,17 @@
-﻿//
+﻿/*
+ *
+ * For Creationg new word in english Controller: WordInEnglish, Action: Create
+ * 
+ * */
 var createNewWordInEnglishcounter = 0;
 //var addButton = createNewWord.addButton;
 var addButton = document.getElementById("add-translation-button");
+
+if (addButton !== 'undefined' && addButton !== null)
+{
+    //add to button "addButton" action
+    addButton.addEventListener("click", addElements);
+}
 
 //function for adding element <fieldset> for new objects
 function addElements() {
@@ -64,7 +74,6 @@ function addElements() {
         element.setAttribute("data-valmsg-for", "Translations[" + createNewWordInEnglishcounter + "].Name");
     }
 }
-
 //Function for remove <fieldset> by current click, which deleting <fieldset idForRemove="value"> with current value of <input idForRemove="value">
 function removeElement(e) {
     var thisButton = e.currentTarget;
@@ -75,7 +84,6 @@ function removeElement(e) {
         elem.parentNode.removeChild(elem);
     }
 }
-
 //add events for all new remove buttons
 function AddEventForRemove() {
     var removeButtons = document.querySelectorAll("[class='delete-button']");
@@ -84,5 +92,28 @@ function AddEventForRemove() {
     });
 }
 
-//add to button "addButton" action
-addButton.addEventListener("click", addElements);
+/*
+ *
+ * For Editing word in english Controller: WordInEnglish, Action: Edit
+ * Delete Transltion of word in english
+ * 
+ * */
+$(".delete-button").click(function (e) {
+    //console.log("fuck");
+    e.preventDefault();
+    var dataId = $(this).attr('data-id-element');
+    var element = $(this).parent();
+
+    $.ajax({
+        type: 'POST',
+        url: '/TranslationOfWord/Delete/' + dataId + '',
+        success: function () {
+            element.remove();
+            alert("Перевод удален");
+        },
+        error: function () {
+            alert("Удаление перевода не произошло");
+        }
+    });
+
+});

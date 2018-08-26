@@ -27,5 +27,25 @@ namespace CMLearningWords.WebUI.Models
         //For dropdown list
         public SelectList StagesOfMethod { get; set; }
     }
+
+    public class UpdateWordInEnglishViewModel
+    {
+        public long Id { get; set; }
+
+        [Display(Name = "Слово на английском")]
+        [Required(ErrorMessage = "Поле обязательно для ввода")]
+        [StringLength(150, MinimumLength = 2, ErrorMessage = "Длина строки должна быть от 1 до 150 символов")]
+        [Remote(action: "CompareWordInEnglishName", controller: "WordInEnglish", AdditionalFields = nameof(Id), ErrorMessage = "Такое слово уже существует")]
+        public string Name { get; set; }
+
+        [Display(Name = "Выберете стейдж")]
+        [Required(ErrorMessage = "Поле обязательно для заполнения")]
+        public long StageOfMethodId { get; set; }
+
+        public List<UpdateTranslationOfWordViewModel> Translations { get; set; }
+
+        //For dropdown list
+        public SelectList StagesOfMethod { get; set; }
+    }
 }
 

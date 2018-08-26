@@ -25,5 +25,7 @@ namespace CMLearningWords.AccessToData.Repository.Interfaces
         Task Update(T item);
         //Remove element form database by entity
         Task Remove(T imem);
+        //Remove element by id
+        Task RemoveById(long id);
     }
 }
