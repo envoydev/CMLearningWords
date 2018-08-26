@@ -109,7 +109,6 @@ $(".delete-button").click(function (e) {
         url: '/TranslationOfWord/Delete/' + dataId + '',
         success: function () {
             element.remove();
-            alert("Перевод удален");
         },
         error: function () {
             alert("Удаление перевода не произошло");
