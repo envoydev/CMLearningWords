@@ -47,5 +47,11 @@ namespace CMLearningWords.WebUI.Models
         //For dropdown list
         public SelectList StagesOfMethod { get; set; }
     }
+
+    public class DisplayWordInEnglishViewModel
+    {
+        [Display(Name = "Слово на английском")]
+        public string Name { get; set; }
+    }
 }
 

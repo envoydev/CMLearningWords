@@ -35,9 +35,9 @@
                             <th>Название</th>
                             <th>Стейдж</th>
                             <th>Перевод</th>
-                            <th>Информация</th>
+                            @*<th>Информация</th>*@
                             <th>Редактировать</th>
-                            <th>Удалить</th>
+                            <th>Добавить перевод</th>
                         </tr>
                     </thead>
                     <tbody id="dataView">
@@ -56,9 +56,9 @@
                                         }
                                     </td>
                                     
-                                    <td><a asp-controller="WordInEnglish" asp-action="Details" asp-route-id="@words[i].Id" class="table-link"><span class="glyphicon glyphicon-info-sign text-center"></span></a></td>
+                                    @*<td><a asp-controller="WordInEnglish" asp-action="Details" asp-route-id="@words[i].Id" class="table-link"><span class="glyphicon glyphicon-info-sign text-center"></span></a></td>*@
                                     <td><a asp-controller="WordInEnglish" asp-action="Edit" asp-route-id="@words[i].Id" class="table-link"><span class="glyphicon glyphicon-edit"></span></a></td>
-                                    <td><a asp-controller="WordInEnglish" asp-action="Delete" asp-route-id="@words[i].Id" class="table-link"><span class="glyphicon glyphicon-trash"></span></a></td>
+                                    <td><a asp-controller="TranslationOfWord" asp-action="Create" asp-route-id="@words[i].Id" class="btn btn-success add-translation-button-home-index">Добавить</a></td>
                                 </tr>
                             }
                         }

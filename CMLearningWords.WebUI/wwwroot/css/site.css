@@ -94,6 +94,19 @@ td, th {
 .half-size {
     width: 50% !important;
 }
+.test-button-home-index {
+    display: block !important;
+    color: white !important;
+    font-weight: bold !important;
+    padding: 8px 30px !important;
+    margin-top: 6px !important;
+}
+.add-translation-button-home-index {
+    display: block !important;
+    width: 50% !important;
+    margin: 0 auto !important;
+    min-width: 95px !important;
+}
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */

@@ -19,13 +19,15 @@ namespace CMLearningWords.WebUI.Automapper
             CreateMap<UpdateWordInEnglishViewModel, WordInEnglish>().ReverseMap();
             CreateMap<WordInEnglish, CreatedTestYourselfViewModel>().ReverseMap();
             CreateMap<CreatedTestYourselfViewModel, WordInEnglish>().ReverseMap();
-
+            CreateMap<WordInEnglish, DisplayWordInEnglishViewModel>().ReverseMap();
 
             //Mapping TranslationOfWord
             CreateMap<CreateTranslationOfWordViewModel, TranslationOfWord>().ReverseMap();
             CreateMap<TranslationOfWord, CreateTranslationOfWordViewModel>().ReverseMap();
             CreateMap<UpdateTranslationOfWordViewModel, TranslationOfWord>().ReverseMap();
             CreateMap<TranslationOfWord, UpdateTranslationOfWordViewModel>().ReverseMap();
+            //CreateMap<ListOfCreateTranslationOfWordSeparateViewModel, TranslationOfWord>().ReverseMap();
+            //CreateMap<TranslationOfWord, ListOfCreateTranslationOfWordSeparateViewModel>().ReverseMap();
 
             //Mapping StagesOfMethod
             CreateMap<CreateStageOfMethodViewModel, StageOfMethod>().ReverseMap();

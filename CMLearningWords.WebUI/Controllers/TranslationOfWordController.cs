@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CMLearningWords.AccessToData.Repository.Interfaces;
 using CMLearningWords.DataModels.Models;
+using CMLearningWords.WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CMLearningWords.WebUI.Controllers
@@ -33,12 +34,61 @@ namespace CMLearningWords.WebUI.Controllers
             return View();
         }
 
-        //[HttpGet]
-        //public IActionResult Delete(long? id)
-        //{
+        [HttpGet]
+        public IActionResult Create(long? id)
+        {
+            //Use for Titile in html
+            ViewData["Title"] = "Добавить перевод";
+            //Use for head in page
+            ViewBag.HeadPageText = "Добавить перевод";
+            //Render to View Create
+            if (id == null)
+                return BadRequest();
 
-        //    return View();
-        //}
+            long currentId = id ?? 0;
+
+            WordInEnglish word = WordsInEnglishContext.FindWithInclude(w => w.Id == currentId, w => w.StageOfMethod).FirstOrDefault();
+
+            if (word == null)
+                return BadRequest();
+
+            ListOfCreateTranslationOfWordSeparateViewModel model = new ListOfCreateTranslationOfWordSeparateViewModel()
+            {
+                WordInEnglish = word,
+                Translations = new List<CreateTranslationOfWordViewModel>()
+                {
+                    new CreateTranslationOfWordViewModel { WordInEnglishId = word.Id },
+                }
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(ListOfCreateTranslationOfWordSeparateViewModel model)
+        {
+            if (model != null)
+            {
+                if (ModelState.IsValid)
+                {
+                    foreach (var translation in model.Translations)
+                    {
+                        translation.Name = translation.Name.Trim();
+                    }
+
+                    List<TranslationOfWord> translations = Mapper.Map<List<CreateTranslationOfWordViewModel>, List<TranslationOfWord>>(model.Translations);
+                    await TranslationsOfWordContext.AddMany(translations);
+
+                    //ViewBags for "_Success" view
+                    ViewBag.SuccessText = "Перевод успешно добавлен";
+                    ViewBag.MethodRedirect = "Index";
+                    ViewBag.ControllerRedirect = "Home";
+                    //Render user on temporary view "Views/Shared/_Success"
+                    return PartialView("_Success");
+                }
+            }
+            return View();
+        }
 
         [HttpPost]
         [ActionName("Delete")]
@@ -52,21 +102,6 @@ namespace CMLearningWords.WebUI.Controllers
             await TranslationsOfWordContext.RemoveById(currentId);
 
             return Ok();
-        }
-
-        [HttpPost]
-        public async Task<JsonResult> DeleteByJson(long? id)
-        {
-            if (id == null)
-                return new JsonResult(id);
-
-            long currentId = id ?? 0;
-
-            await TranslationsOfWordContext.RemoveById(currentId);
-
-            var text = true;
-
-            return new JsonResult(text);
         }
 
         //Close all connections

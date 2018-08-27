@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using CMLearningWords.DataModels.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CMLearningWords.WebUI.Models
 {
     public class CreateTranslationOfWordViewModel
     {
-        [Display(Name = "Название")]
+        [Display(Name = "Перевод")]
         //validation of required field
         [Required(ErrorMessage = "Введите слово которое нужно добавить")]
         //Validation for length of string
@@ -17,6 +18,8 @@ namespace CMLearningWords.WebUI.Models
         //Check if word exist in database
         //[Remote(action: "CheckTranslationOfWordName", controller: "TranslationOfWord", ErrorMessage = "Такой перевод в данном слове уже существует")]
         public string Name { get; set; }
+
+        public long WordInEnglishId { get; set; }
     }
 
     public class UpdateTranslationOfWordViewModel
@@ -33,5 +36,12 @@ namespace CMLearningWords.WebUI.Models
         public string Name { get; set; }
 
         public long WordInEnglishId { get; set; }
+    }
+
+    public class ListOfCreateTranslationOfWordSeparateViewModel
+    {
+        public WordInEnglish WordInEnglish { get; set; }
+
+        public List<CreateTranslationOfWordViewModel> Translations { get; set; }
     }
 }

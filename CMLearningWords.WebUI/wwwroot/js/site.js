@@ -7,6 +7,10 @@ var createNewWordInEnglishcounter = 0;
 //var addButton = createNewWord.addButton;
 var addButton = document.getElementById("add-translation-button");
 
+var createNewTranslationCounter = 0;
+//var addTranslationButton = createNewWord.addButton;
+var addTranslationButton = document.getElementById("add-separate-translation-button");
+
 if (addButton !== 'undefined' && addButton !== null)
 {
     //add to button "addButton" action
@@ -103,16 +107,137 @@ $(".delete-button").click(function (e) {
     e.preventDefault();
     var dataId = $(this).attr('data-id-element');
     var element = $(this).parent();
+    var modalFooter = $('.modal-footer');
+    var whileDeletingModal = $('#while-deleling');
+    var afterDeletingModal = $('#after-deleling');
+    var closeButton = $('#closeModal');
 
-    $.ajax({
-        type: 'POST',
-        url: '/TranslationOfWord/Delete/' + dataId + '',
-        success: function () {
-            element.remove();
-        },
-        error: function () {
-            alert("Удаление перевода не произошло");
-        }
+    modalFooter.css('display', 'block');
+    whileDeletingModal.css('display', 'block');
+    afterDeletingModal.css('display', 'none');
+
+    $('#delete-current-translation').click(function (event) {
+        event.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '/TranslationOfWord/Delete/' + dataId + '',
+            success: function () {
+                element.remove();
+                modalFooter.css('display', 'none');
+                whileDeletingModal.css('display', 'none');
+                afterDeletingModal.css('display', 'block'); 
+            },
+            error: function () {
+                alert("произошла ошибка во время удаления, попробуйте позже");
+            }
+        });
+        setTimeout('closeButtonFunction()', 2000);
+
+        modalFooter.css('display', 'block');
+        whileDeletingModal.css('display', 'block');
+        afterDeletingModal.css('display', 'none');
     });
-
 });
+function closeButtonFunction() {
+    var closeButton = $('#closeModal');
+    closeButton.trigger('click');
+};
+
+/*
+ * 
+ * translations_0__Name
+ * 
+ */
+
+if (addTranslationButton !== 'undefined' && addTranslationButton !== null) {
+    //add to button "addButton" action
+    addTranslationButton.addEventListener("click", addElementsForTranslationController);
+}
+
+//function for adding element <fieldset> for new objects
+function addElementsForTranslationController() {
+    var container = document.getElementById("containerOfTranslations");
+    var countFiledSets = document.getElementsByClassName("translationFiled").length;
+    var lastFiled = document.getElementsByClassName("translationFiled")[countFiledSets - 1];
+    //if view page has only single <fieldset>
+    if ((countFiledSets - 1) === 0) {
+        var dublicated = dublicateTranslationField(lastFiled);
+        clearTranslationFiled(dublicated);
+        addTranslationButtonInputForDeleting(dublicated);
+        var inputFiled = dublicated.querySelectorAll("[additionalFiled='translationFiledinput']")[0];
+        inputFiled.className += " translation-filed";
+        changeIdOfInput(inputFiled);
+        var hiddenInput = dublicated.querySelectorAll("[additionalFiled='translationFiledinputHidden']")[0];
+        changeIdHiddenOfInput(hiddenInput);
+        var spanField = dublicated.querySelectorAll("[spanField='validationSpan']")[0];
+        addSpanValidation(spanField);
+        AddEventForTranslationRemove();
+    }
+    else {
+        var dublicated = dublicateTranslationField(lastFiled);
+        dublicated.setAttribute("idForRemove", createNewTranslationCounter);
+        var inputFiled = dublicated.querySelectorAll("[additionalFiled='translationFiledinput']")[0];
+        changeIdOfInput(inputFiled);
+        var hiddenInput = dublicated.querySelectorAll("[additionalFiled='translationFiledinputHidden']")[0];
+        changeIdHiddenOfInput(hiddenInput);
+        var getButton = dublicated.querySelectorAll("[name='removeButton']")[0];
+        getButton.setAttribute("idForRemove", createNewTranslationCounter);
+        clearTranslationFiled(dublicated);
+        var spanField = dublicated.querySelectorAll("[spanField='validationSpan']")[0];
+        addSpanValidation(spanField);
+        AddEventForTranslationRemove();
+    }
+    //function for adding delete button for additional fileds
+    function addTranslationButtonInputForDeleting(element) {
+        var button = document.createElement("input");
+        button.setAttribute("type", "button");
+        button.setAttribute("name", "removeButton");
+        button.setAttribute("value", "Удалить текущее поле");
+        button.setAttribute("idForRemove", createNewTranslationCounter);
+        button.setAttribute("class", "delete-button");
+        //element.appendChild(button);
+        element.insertBefore(button, element.querySelectorAll("[spanField='validationSpan']")[0]);
+    }
+    //function for dublicating <fieldset> with inputs
+    function dublicateTranslationField(element) {
+        createNewTranslationCounter++;
+        var clone = element.cloneNode(true);
+        clone.setAttribute("idForRemove", createNewTranslationCounter);
+        return container.appendChild(clone);
+    }
+    //function for clearing values in duplicating inputs
+    function clearTranslationFiled(element) {
+        var getInputWithValue = element.querySelectorAll("[additionalFiled='translationFiledinput']")[0];
+        getInputWithValue.value = "";
+    }
+    function changeIdOfInput(element) {
+        //console.log(element);
+        element.setAttribute("id", "Translations_" + createNewTranslationCounter + "__Name");
+        element.setAttribute("name", "Translations[" + createNewTranslationCounter + "].Name");
+    }
+    function changeIdHiddenOfInput(element) {
+        //console.log(element);
+        element.setAttribute("id", "Translations_" + createNewTranslationCounter + "__WordInEnglishId");
+        element.setAttribute("name", "Translations[" + createNewTranslationCounter + "].WordInEnglishId");
+    }
+    function addSpanValidation(element) {
+        element.setAttribute("data-valmsg-for", "Translations[" + createNewTranslationCounter + "].Name");
+    }
+}
+//Function for remove <fieldset> by current click, which deleting <fieldset idForRemove="value"> with current value of <input idForRemove="value">
+function removeTranslationElement(e) {
+    var thisButton = e.currentTarget;
+    var getValue = thisButton.getAttribute("idForRemove");
+    if (getValue !== null && getValue !== "undefined") {
+        var elem = document.querySelector("[idForRemove='" + getValue + "']");
+        var parent = elem.parentNode;
+        elem.parentNode.removeChild(elem);
+    }
+}
+//add events for all new remove buttons
+function AddEventForTranslationRemove() {
+    var removeButtons = document.querySelectorAll("[class='delete-button']");
+    return removeButtons[removeButtons.length - 1].addEventListener("click", function (e) {
+        removeTranslationElement(e);
+    });
+}

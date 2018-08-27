@@ -46,7 +46,7 @@
                                 <input asp-for="@Model.Translations[i].Id" type="hidden" />
                                 <input asp-for="@Model.Translations[i].WordInEnglishId" type="hidden" />
                                 <input asp-for="@Model.Translations[i].Name" value="@Model.Translations[i].Name" additionalFiled="translationFiledinput" class="form-control custom-control translation-filed" required />
-                                <input type="button" data-id-element="@Model.Translations[i].Id" class="btn btn-danger delete-button" value="Удалить перевод">
+                                <input type="button" data-id-element="@Model.Translations[i].Id" class="btn btn-danger delete-button" data-toggle="modal" data-target="#deleteTransltaionModal" value="Удалить перевод">
                                 <span asp-validation-for="@Model.Translations[i].Name" spanField="validationSpan" class="form-text text-danger"></span>
                             </fieldset>
                         }
@@ -60,3 +60,28 @@
     </div>
 </div>
 
+
+<!-- Modal -->
+<div class="modal fade" id="deleteTransltaionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><b>Удаление</b></h5>
+                <button type="button" id="closeModal" class="close" style="display: none;" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="while-deleling">
+                <p>Вы уверен что хотите удалить этот перевол?</p>
+                <p>Его не возможно будет восстановить</p>
+            </div>
+            <div class="modal-body" style="display: none;" id="after-deleling">
+                <p>Удаление произошло успешно</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>
+                <button type="button" id="delete-current-translation" class="btn btn-primary">Удалить</button>
+            </div>
+        </div>
+    </div>
+</div>

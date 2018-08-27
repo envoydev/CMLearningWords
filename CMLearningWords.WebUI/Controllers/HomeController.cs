@@ -108,17 +108,5 @@ namespace CMLearningWords.WebUI.Controllers
             WordsInEnglishContext.Dispose();
             base.Dispose(disposing);
         }
-
-        //Test method
-        //private IQueryable<WordInEnglish> GetWordsInEnglishByTranslationName(string name)
-        //{
-        //    IQueryable<TranslationOfWord> listOfTrans = TranslationsOfWordContext.FindWithInclude(t => t.Name.Contains(name), t => t.WordInEnglish);
-        //    IQueryable<WordInEnglish> list = null;
-        //    for (int i = 0; i < listOfTrans.Count(); i++)
-        //    {
-        //        list.Add(listOfTrans[i].WordInEnglish);
-        //    }
-        //    return list;
-        //}
     }
 }
