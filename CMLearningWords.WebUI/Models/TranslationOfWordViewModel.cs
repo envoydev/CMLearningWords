@@ -16,7 +16,7 @@ namespace CMLearningWords.WebUI.Models
         //Validation for length of string
         [StringLength(150, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 150 символов")]
         //Check if word exist in database
-        //[Remote(action: "CheckTranslationOfWordName", controller: "TranslationOfWord", ErrorMessage = "Такой перевод в данном слове уже существует")]
+        //[Remote(action: "CheckTranslationOfWordNameInSameWordInEnglish", controller: "TranslationOfWord", ErrorMessage = "Такой перевод в данном слове уже существует")]
         public string Name { get; set; }
 
         public long WordInEnglishId { get; set; }
@@ -26,16 +26,16 @@ namespace CMLearningWords.WebUI.Models
     {
         public long Id { get; set; }
 
+        public long WordInEnglishId { get; set; }
+
         [Display(Name = "Перевод")]
         //validation of required field
         [Required(ErrorMessage = "Поле не может быть пустым")]
         //Validation for length of string
         [StringLength(150, MinimumLength = 3, ErrorMessage = "Длина строки должна быть от 3 до 150 символов")]
         //Check if word exist in database
-        //[Remote(action: "CheckTranslationOfWordName", controller: "TranslationOfWord", ErrorMessage = "Такой перевод в данном слове уже существует")]
+        //[Remote(action: "CheckTranslationOfWordNameInSameWordInEnglish", controller: "TranslationOfWord", ErrorMessage = "Такой перевод в данном слове уже существует")]
         public string Name { get; set; }
-
-        public long WordInEnglishId { get; set; }
     }
 
     public class ListOfCreateTranslationOfWordSeparateViewModel

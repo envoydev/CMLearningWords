@@ -19,30 +19,31 @@ if (addButton !== 'undefined' && addButton !== null)
 
 //function for adding element <fieldset> for new objects
 function addElements() {
+    var dublicated, inputFiled, getButton, spanField;
     var container = document.getElementById("containerOfTranslations");
     var countFiledSets = document.getElementsByClassName("translationFiled").length;
     var lastFiled = document.getElementsByClassName("translationFiled")[countFiledSets - 1];
     //if view page has only single <fieldset>
     if ((countFiledSets - 1) === 0) {
-        var dublicated = dublicateField(lastFiled);
+        ublicated = dublicateField(lastFiled);
         clearFiled(dublicated);
         addButtonInputForDeleting(dublicated);
-        var inputFiled = dublicated.querySelectorAll("[additionalFiled='translationFiledinput']")[0];
+        inputFiled = dublicated.querySelectorAll("[additionalFiled='translationFiledinput']")[0];
         inputFiled.className += " translation-filed";
         changeIdOfInput(inputFiled);
-        var spanField = dublicated.querySelectorAll("[spanField='validationSpan']")[0];
+        spanField = dublicated.querySelectorAll("[spanField='validationSpan']")[0];
         addSpanValidation(spanField);
         AddEventForRemove();
     }
     else {
-        var dublicated = dublicateField(lastFiled);
+        dublicated = dublicateField(lastFiled);
         dublicated.setAttribute("idForRemove", createNewWordInEnglishcounter);
-        var inputFiled = dublicated.querySelectorAll("[additionalFiled='translationFiledinput']")[0];
+        inputFiled = dublicated.querySelectorAll("[additionalFiled='translationFiledinput']")[0];
         changeIdOfInput(inputFiled);
-        var getButton = dublicated.querySelectorAll("[name='removeButton']")[0];
+        getButton = dublicated.querySelectorAll("[name='removeButton']")[0];
         getButton.setAttribute("idForRemove", createNewWordInEnglishcounter);
         clearFiled(dublicated);
-        var spanField = dublicated.querySelectorAll("[spanField='validationSpan']")[0];
+        spanField = dublicated.querySelectorAll("[spanField='validationSpan']")[0];
         addSpanValidation(spanField);
         AddEventForRemove();
     }
@@ -156,34 +157,35 @@ if (addTranslationButton !== 'undefined' && addTranslationButton !== null) {
 
 //function for adding element <fieldset> for new objects
 function addElementsForTranslationController() {
+    var dublicated, inputFiled, getButton, spanField, hiddenInput;
     var container = document.getElementById("containerOfTranslations");
     var countFiledSets = document.getElementsByClassName("translationFiled").length;
     var lastFiled = document.getElementsByClassName("translationFiled")[countFiledSets - 1];
     //if view page has only single <fieldset>
     if ((countFiledSets - 1) === 0) {
-        var dublicated = dublicateTranslationField(lastFiled);
+        dublicated = dublicateTranslationField(lastFiled);
         clearTranslationFiled(dublicated);
         addTranslationButtonInputForDeleting(dublicated);
-        var inputFiled = dublicated.querySelectorAll("[additionalFiled='translationFiledinput']")[0];
+        inputFiled = dublicated.querySelectorAll("[additionalFiled='translationFiledinput']")[0];
         inputFiled.className += " translation-filed";
         changeIdOfInput(inputFiled);
-        var hiddenInput = dublicated.querySelectorAll("[additionalFiled='translationFiledinputHidden']")[0];
+        hiddenInput = dublicated.querySelectorAll("[additionalFiled='translationFiledinputHidden']")[0];
         changeIdHiddenOfInput(hiddenInput);
-        var spanField = dublicated.querySelectorAll("[spanField='validationSpan']")[0];
+        spanField = dublicated.querySelectorAll("[spanField='validationSpan']")[0];
         addSpanValidation(spanField);
         AddEventForTranslationRemove();
     }
     else {
-        var dublicated = dublicateTranslationField(lastFiled);
+        dublicated = dublicateTranslationField(lastFiled);
         dublicated.setAttribute("idForRemove", createNewTranslationCounter);
-        var inputFiled = dublicated.querySelectorAll("[additionalFiled='translationFiledinput']")[0];
+        inputFiled = dublicated.querySelectorAll("[additionalFiled='translationFiledinput']")[0];
         changeIdOfInput(inputFiled);
-        var hiddenInput = dublicated.querySelectorAll("[additionalFiled='translationFiledinputHidden']")[0];
+        hiddenInput = dublicated.querySelectorAll("[additionalFiled='translationFiledinputHidden']")[0];
         changeIdHiddenOfInput(hiddenInput);
-        var getButton = dublicated.querySelectorAll("[name='removeButton']")[0];
+        getButton = dublicated.querySelectorAll("[name='removeButton']")[0];
         getButton.setAttribute("idForRemove", createNewTranslationCounter);
         clearTranslationFiled(dublicated);
-        var spanField = dublicated.querySelectorAll("[spanField='validationSpan']")[0];
+        spanField = dublicated.querySelectorAll("[spanField='validationSpan']")[0];
         addSpanValidation(spanField);
         AddEventForTranslationRemove();
     }

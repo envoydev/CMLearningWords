@@ -61,6 +61,8 @@ namespace CMLearningWords.WebUI.Controllers
                 }
             };
 
+            //TempData["WordInEnglishId"] = word.Id;
+
             return View(model);
         }
 
@@ -102,6 +104,23 @@ namespace CMLearningWords.WebUI.Controllers
             await TranslationsOfWordContext.RemoveById(currentId);
 
             return Ok();
+        }
+
+        [AcceptVerbs("Get", "Post")]
+        public IActionResult CheckTranslationOfWordNameInSameWordInEnglish(string name)
+        {
+            //int wordInEnglishId = (int)TempData["WordInEnglishId"];
+            //long currentId = (long)wordInEnglishId;
+
+            //Get translation by Name and by wordInEnglish id
+            TranslationOfWord currentTranslation = TranslationsOfWordContext.FindWithInclude(t => t.Name == name && t.WordInEnglishId == 0).FirstOrDefault();
+            //Check
+            var result = Json(true);
+            if (currentTranslation == null)
+                result = Json(true); //current Translation with current WordInEnglishId exist in DB
+            else
+                result = Json(false); //current "Name" exist in DB but without current id
+            return result; //return result
         }
 
         //Close all connections

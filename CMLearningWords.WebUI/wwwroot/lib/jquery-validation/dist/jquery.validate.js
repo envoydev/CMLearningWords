@@ -1325,7 +1325,8 @@ $.extend( $.validator, {
 			validator = this;
 			this.startRequest( element );
 			data = {};
-			data[ element.name ] = value;
+            //data[element.name] = value;
+            data[element.name.substr(element.name.lastIndexOf(".") + 1)] = value; // add this
 			$.ajax( $.extend( true, {
 				mode: "abort",
 				port: "validate" + element.name,

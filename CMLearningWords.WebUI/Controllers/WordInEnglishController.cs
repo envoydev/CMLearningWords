@@ -127,15 +127,11 @@ namespace CMLearningWords.WebUI.Controllers
 
                     List<TranslationOfWord> translations = Mapper.Map<List<UpdateTranslationOfWordViewModel>, List<TranslationOfWord>>(word.Translations);
 
-                    int b = 0;
-
                     foreach (var translation in translations)
                     {
                         await TranslationsOfWordContext.Update(translation);
                     }
 
-                    //Add many translations, user method "GetTranslationsFromStringArray" to make new object of TranslationOfWord type
-                    //await TranslationsOfWordContext.AddMany(GetTranslationsFromListAndGiveIdOfWordInEnglish(word.Translations, currentWord.Id));
                     //ViewBags for "_Success" view
                     ViewBag.SuccessText = "Слово успешно отредактированно";
                     ViewBag.MethodRedirect = "Index";
@@ -151,6 +147,7 @@ namespace CMLearningWords.WebUI.Controllers
         }
 
         //Chech Unique data for "Name"
+        [AcceptVerbs("Get", "Post")]
         public IActionResult CheckWordInEnglishName(string name)
         {
             //Get item by Name
