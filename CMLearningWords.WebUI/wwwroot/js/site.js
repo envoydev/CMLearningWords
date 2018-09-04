@@ -24,8 +24,8 @@ function addElements() {
     var countFiledSets = document.getElementsByClassName("translationFiled").length;
     var lastFiled = document.getElementsByClassName("translationFiled")[countFiledSets - 1];
     //if view page has only single <fieldset>
-    if ((countFiledSets - 1) === 0) {
-        ublicated = dublicateField(lastFiled);
+    if (countFiledSets - 1 === 0) {
+        dublicated = dublicateField(lastFiled);
         clearFiled(dublicated);
         addButtonInputForDeleting(dublicated);
         inputFiled = dublicated.querySelectorAll("[additionalFiled='translationFiledinput']")[0];
@@ -37,6 +37,7 @@ function addElements() {
     }
     else {
         dublicated = dublicateField(lastFiled);
+        //console.log(dublicated);
         dublicated.setAttribute("idForRemove", createNewWordInEnglishcounter);
         inputFiled = dublicated.querySelectorAll("[additionalFiled='translationFiledinput']")[0];
         changeIdOfInput(inputFiled);
@@ -142,7 +143,7 @@ $(".delete-button").click(function (e) {
 function closeButtonFunction() {
     var closeButton = $('#closeModal');
     closeButton.trigger('click');
-};
+}
 
 /*
  * 
@@ -162,7 +163,7 @@ function addElementsForTranslationController() {
     var countFiledSets = document.getElementsByClassName("translationFiled").length;
     var lastFiled = document.getElementsByClassName("translationFiled")[countFiledSets - 1];
     //if view page has only single <fieldset>
-    if ((countFiledSets - 1) === 0) {
+    if (countFiledSets - 1 === 0) {
         dublicated = dublicateTranslationField(lastFiled);
         clearTranslationFiled(dublicated);
         addTranslationButtonInputForDeleting(dublicated);
