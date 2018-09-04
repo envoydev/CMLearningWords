@@ -243,3 +243,4 @@ function AddEventForTranslationRemove() {
         removeTranslationElement(e);
     });
 }
+
