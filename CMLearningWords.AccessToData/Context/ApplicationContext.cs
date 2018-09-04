@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CMLearningWords.DataModels.Models;
+﻿using CMLearningWords.DataModels.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CMLearningWords.AccessToData.Context

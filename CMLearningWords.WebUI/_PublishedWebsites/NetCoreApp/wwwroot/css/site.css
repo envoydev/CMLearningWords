@@ -1,0 +1,116 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+/*Table*/
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+/* Zebra striping */
+tr:nth-of-type(odd) {
+    background: #eee;
+}
+th {
+    background: #333;
+    color: white;
+    font-weight: bold;
+}
+td, th {
+    padding: 6px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+.table-link {
+    display: block;
+    text-align: center;
+}
+.hide-while-desctop {
+    display: none !important;
+}
+.help-top-margin-10px-desctop {
+    margin-top: 10px;
+}
+.help-bottom-margin-30px-desctop {
+    margin-bottom: 30px;
+}
+.help-bottom-margin-10px-desctop {
+    margin-bottom: 10px;
+}
+.translation-filed {
+    display: inline-block !important;
+    width: 78% !important;
+}
+.delete-button {
+    display: inline-block !important;
+    width: 18% !important;
+    padding: 6px 1% !important;
+    margin-top: -2px !important;
+    margin-left: 1% !important;
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.translationFiled {
+    margin-bottom: 10px;
+}
+.translationFiled span span {
+    display: block;
+}
+.half-size {
+    width: 50% !important;
+}
+.test-button-home-index {
+    display: block !important;
+    color: white !important;
+    font-weight: bold !important;
+    padding: 8px 30px !important;
+    margin-top: 6px !important;
+}
+.add-translation-button-home-index {
+    display: block !important;
+    width: 50% !important;
+    margin: 0 auto !important;
+    min-width: 95px !important;
+}
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}

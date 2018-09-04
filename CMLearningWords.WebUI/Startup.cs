@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CMLearningWords.AccessToData.Context;
+﻿using CMLearningWords.AccessToData.Context;
 using CMLearningWords.AccessToData.Repository.Classes;
 using CMLearningWords.AccessToData.Repository.Interfaces;
 using CMLearningWords.WebUI.Automapper;
@@ -32,7 +28,8 @@ namespace CMLearningWords.WebUI
             services.AddSession();
             services.AddMvc();
             //Contection to database
-            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(ApplicationContextFactory.Path));
+            services.AddDbContext<ApplicationContext>(options => 
+                options.UseSqlServer(Configuration.GetConnectionString("Default")));
 
             //Repository Scopes
             services.AddScoped<IStageOfMethodRepository, StageOfMethodRepository>();

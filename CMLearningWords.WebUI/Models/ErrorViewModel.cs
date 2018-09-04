@@ -1,5 +1,3 @@
-using System;
-
 namespace CMLearningWords.WebUI.Models
 {
     public class ErrorViewModel
