@@ -146,6 +146,24 @@ namespace CMLearningWords.WebUI.Controllers
             return View(word);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Delete(long? id)
+        {
+            if (id == null)
+                return BadRequest();
+
+            long currentId = id ?? 0;
+
+            await WordsInEnglishContext.RemoveById(currentId);
+
+            //ViewBags for "_Success" view
+            ViewBag.SuccessText = "Слово успешно удаленно";
+            ViewBag.MethodRedirect = "Index";
+            ViewBag.ControllerRedirect = "Home";
+            //Render user on temporary view "Views/Shared/_Success"
+            return PartialView("_Success");
+        }
+
         //Chech Unique data for "Name"
         [AcceptVerbs("Get", "Post")]
         public IActionResult CheckWordInEnglishName(string name)

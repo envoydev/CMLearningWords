@@ -53,5 +53,10 @@ namespace CMLearningWords.WebUI.Models
         [Display(Name = "Слово на английском")]
         public string Name { get; set; }
     }
+
+    public class DeleteWordInEnglishViewModel
+    {
+        public long Id { get; set; }
+    }
 }
 
